@@ -29,8 +29,8 @@ variable "enable_ssl" {
 }
 
 variable "ssl_certificates" {
-  type        = "list"
   description = "List of SSL cert self links. Required if 'enable_ssl' is 'true' and 'use_managed_certificates'  ."
+  type        = "list"
   default     = []
 }
 
