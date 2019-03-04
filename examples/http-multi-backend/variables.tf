@@ -16,7 +16,7 @@ variable "instance_zone" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL MODULE PARAMETERS
+# OPTIONAL PARAMETERS
 # These variables have defaults, but may be overridden by the operator.
 # ---------------------------------------------------------------------------------------------------------------------
 
