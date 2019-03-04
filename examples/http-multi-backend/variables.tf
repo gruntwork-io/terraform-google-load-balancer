@@ -12,7 +12,7 @@ variable "region" {
 }
 
 variable "zone" {
-  description = "The region to create the resources in."
+  description = "The availability zone to create the sample compute instances in. Must within the region specified in 'var.region'"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
