@@ -12,7 +12,7 @@ variable "region" {
 }
 
 variable "name" {
-  description = "Name for the forwarding rule and prefix for supporting resources XXXXXXXXX"
+  description = "Name for the load balancer forwarding rule and prefix for supporting resources."
 }
 
 variable "url_map" {
@@ -24,7 +24,7 @@ variable "url_map" {
 # These variables have defaults, but may be overridden by the operator.
 # ---------------------------------------------------------------------------------------------------------------------
 variable "enable_ssl" {
-  description = "Set to true to enable ssl. If set to 'true', you will also have to provide 'var.ssl_certificate'."
+  description = "Set to true to enable ssl. If set to 'true', you will also have to provide 'var.ssl_certificates'."
   default     = false
 }
 
@@ -35,7 +35,7 @@ variable "ssl_certificates" {
 }
 
 variable "use_managed_certificate" {
-  description = "Use Google-managed SSL certificate."
+  description = "Use Google-managed SSL certificate. See https://cloud.google.com/load-balancing/docs/ssl-certificates#create-lb-managed-certs"
   default     = false
 }
 
