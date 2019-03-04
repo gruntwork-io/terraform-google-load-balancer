@@ -4,11 +4,11 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "project" {
-  description = "The project ID to host the site in."
+  description = "The project ID to create the resources in."
 }
 
 variable "region" {
-  description = "The region to host the resources in."
+  description = "The region to create the resources in."
 }
 
 variable "name" {
@@ -34,8 +34,8 @@ variable "ssl_certificates" {
   default     = []
 }
 
-variable "use_managed_certificate" {
-  description = "Use Google-managed SSL certificate. See https://cloud.google.com/load-balancing/docs/ssl-certificates#create-lb-managed-certs"
+variable "use_managed_certificates" {
+  description = "Use Google-managed SSL certificates. See https://cloud.google.com/load-balancing/docs/ssl-certificates#create-lb-managed-certs"
   default     = false
 }
 
@@ -45,7 +45,7 @@ variable "enable_http" {
 }
 
 variable "create_dns_entries" {
-  description = "If set to true, create a DNS CNAME Record in Cloud DNS for each domain specified in 'custom_domain_names'."
+  description = "If set to true, create a DNS A Recordr in Cloud DNS for each domain specified in 'custom_domain_names'."
   default     = false
 }
 
@@ -56,12 +56,12 @@ variable "custom_domain_names" {
 }
 
 variable "dns_managed_zone_name" {
-  description = "The name of the Cloud DNS Managed Zone in which to create the DNS CNAME Record specified in var.website_domain_name. Only used if var.create_dns_entry is true."
+  description = "The name of the Cloud DNS Managed Zone in which to create the DNS A Records specified in 'var.custom_domain_names'. Only used if 'var.create_dns_entries' is true."
   default     = "replace-me"
 }
 
 variable "dns_record_ttl" {
-  description = "The time-to-live for the site CNAME record set (seconds)"
+  description = "The time-to-live for the site A records (seconds)"
   default     = 300
 }
 
