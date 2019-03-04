@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------------------------------------------------
+# REQUIRED PARAMETERS
+# These variables are expected to be passed in by the operator
+# ---------------------------------------------------------------------------------------------------------------------
+
+variable "project" {
+  description = "The project ID to host the site in."
+}
+
+variable "region" {
+  description = "The region to host the resources in."
+}
+
+variable "name" {
+  description = "Name for the forwarding rule and prefix for supporting resources XXXXXXXXX"
+}
+
+variable "url_map" {
+  description = "The url_map resource to use."
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# OPTIONAL MODULE PARAMETERS
+# These variables have defaults, but may be overridden by the operator.
+# ---------------------------------------------------------------------------------------------------------------------
+variable "enable_ssl" {
+  description = "Set to true to enable ssl. If set to 'true', you will also have to provide 'var.ssl_certificate'."
+  default     = false
+}
+
+variable "ssl_certificates" {
+  type        = "list"
+  description = "List of SSL cert self links. Required if 'enable_ssl' is 'true' and 'use_managed_certificates'  ."
+  default     = []
+}
+
+variable "use_managed_certificate" {
+  description = "Use Google-managed SSL certificate."
+  default     = false
+}
+
+variable "enable_http" {
+  description = "Set to true to enable plain http. Note that disabling http does not force SSL and/or redirect HTTP traffic. See https://issuetracker.google.com/issues/35904733"
+  default     = true
+}
+
+variable "create_dns_entries" {
+  description = "If set to true, create a DNS CNAME Record in Cloud DNS for each domain specified in 'custom_domain_names'."
+  default     = false
+}
+
+variable "custom_domain_names" {
+  description = "List of custom domain names."
+  type        = "list"
+  default     = []
+}
+
+variable "dns_managed_zone_name" {
+  description = "The name of the Cloud DNS Managed Zone in which to create the DNS CNAME Record specified in var.website_domain_name. Only used if var.create_dns_entry is true."
+  default     = "replace-me"
+}
+
+variable "dns_record_ttl" {
+  description = "The time-to-live for the site CNAME record set (seconds)"
+  default     = 300
+}
+
+variable "custom_labels" {
+  description = "A map of custom labels to apply to the resources. The key is the label name and the value is the label value."
+  type        = "map"
+  default     = {}
+}
