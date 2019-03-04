@@ -6,7 +6,7 @@ This repo contains modules to perform load balancing on [Google Cloud Platform (
 
 ## Code included in this Module
 
-* [http-load-balancer](/modules/http-load-balancer): Deploy a [HTTP Load Balancer](https://cloud.google.com/load-balancing/docs/https/).
+* [http-load-balancer](/modules/http-load-balancer): Deploy an [HTTP Load Balancer](https://cloud.google.com/load-balancing/docs/https/).
 
 
 ## What is Cloud Load Balancer?
