@@ -40,16 +40,6 @@ For HTTP(S) Proxy Load Balancing, *Google encrypts traffic between the load bala
 
 To use self-managed SSL certificates, you must have an existing [SSL certificate resource](https://cloud.google.com/compute/docs/reference/v1/sslCertificates). You can pass the certificate self links using the `ssl_certificates` input variable. 
 
-### Using Google-managed certificates
-
-You can also have the certificate created and managed by Google with `use_managed_certificate`. Google-managed SSL certificates are Domain Validation (DV) certificates only, and do not demonstrate the identity of an organization or individual associated with the certificate. 
-
-Google-managed SSL certificates support only a single domain name per certificate. They do not support wildcard common names or multiple subject alternate names. 
-
-Note that the total time for provisioning certificates is likely to take from 30 to 60 minutes.
-
-Read more about Google-managed certificates [here](https://cloud.google.com/load-balancing/docs/ssl-certificates#create-lb-managed-certs). 
-
 ## How Do You Configure Access Logging and Monitoring?
 
 **NOTE:** This is part of Alpha release of GCP HTTP(S) Load Balancing Logging. For full details, see the [official documentation](https://cloud.google.com/load-balancing/docs/https/https-logging-monitoring).

@@ -29,14 +29,9 @@ variable "enable_ssl" {
 }
 
 variable "ssl_certificates" {
-  description = "List of SSL cert self links. Required if 'enable_ssl' is 'true' and 'use_managed_certificates'  ."
+  description = "List of SSL cert self links. Required if 'enable_ssl' is 'true'."
   type        = "list"
   default     = []
-}
-
-variable "use_managed_certificates" {
-  description = "Use Google-managed SSL certificates. See https://cloud.google.com/load-balancing/docs/ssl-certificates#create-lb-managed-certs"
-  default     = false
 }
 
 variable "enable_http" {
