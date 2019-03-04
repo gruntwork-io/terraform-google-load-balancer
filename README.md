@@ -2,7 +2,7 @@
 
 # Cloud Load Balancer Modules
 
-This repo contains modules for running [Cloud Load Balancers](https://cloud.google.com/load-balancing/) on [GCP](https://cloud.google.com/).
+This repo contains modules to perform load balancing on [Google Cloud Platform (GCP)](https://cloud.google.com/) using [Google Cloud Load Balancing](https://cloud.google.com/load-balancing/).
 
 ## Code included in this Module
 
