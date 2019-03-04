@@ -36,11 +36,11 @@ To use HTTPS or SSL load balancing, you must associate at least one SSL certific
 
 For HTTP(S) Proxy Load Balancing, *Google encrypts traffic between the load balancer and backend instances.* SSL certificate resources *are not required* on individual VM instances.
 
-###Using Self-managed SSL certificates
+### Using Self-managed SSL certificates
 
 To use self-managed SSL certificates, you must have an existing [SSL certificate resource](https://cloud.google.com/compute/docs/reference/v1/sslCertificates). You can pass the certificate self links using the `ssl_certificates` input variable. 
 
-###Using Google-managed certificates
+### Using Google-managed certificates
 
 You can also have the certificate created and managed by Google with `use_managed_certificate`. Google-managed SSL certificates are Domain Validation (DV) certificates only, and do not demonstrate the identity of an organization or individual associated with the certificate. 
 
@@ -54,7 +54,7 @@ Read more about Google-managed certificates [here](https://cloud.google.com/load
 
 **NOTE:** This is part of Alpha release of GCP HTTP(S) Load Balancing Logging. For full details, see the [official documentation](https://cloud.google.com/load-balancing/docs/https/https-logging-monitoring).
 
-###Access logs with a Google Cloud Storage Bucket backend
+### Access logs with a Google Cloud Storage Bucket backend
 
 If you intend to use the load balancer for serving a static site using a [Google Cloud Storage](https://cloud.google.com/storage/) bucket backend, you can optionally configure [access logging](https://cloud.google.com/storage/docs/access-logs) for your bucket. 
 
@@ -70,7 +70,7 @@ HTTP(S) Load Balancing log entries contain information useful for monitoring and
 - [HttpRequest](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#HttpRequest) log fields. However, `HttpRequest.protocol` and `HttpRequest.latency` are not populated for HTTP(S) Load Balancing Stackdriver logs.
 - a `statusDetails` field inside the `structPayload`. This field holds a string that explains why the load balancer returned the HTTP status that it did. The tables below contain further explanations of these log strings.
 
-###Monitoring
+### Monitoring
 
 HTTP(S) Load Balancing exports monitoring data to [Stackdriver](https://cloud.google.com/monitoring/docs/).
 
