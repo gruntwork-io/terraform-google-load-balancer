@@ -11,7 +11,7 @@ variable "region" {
   description = "The region to create the resources in."
 }
 
-variable "instance_zone" {
+variable "zone" {
   description = "The region to create the resources in."
 }
 
