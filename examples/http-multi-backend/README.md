@@ -1,6 +1,6 @@
-# HTTP(S) Load Balancer Example
+# HTTP Load Balancer Example
 
-This folder contains an example of how to use the [HTTP(S) Load Balancer Module](/modules/http-load-balancer) to create a [HTTP(S) Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) with 
+This folder contains an example of how to use the [HTTP Load Balancer Module](/modules/http-load-balancer) to create a [HTTP Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) with 
 
 * HTTP listener
 * Backend Cloud Storage Bucket with sample files
