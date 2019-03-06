@@ -15,7 +15,7 @@ This module allows you to configure a number of parameters, such as HTTP/HTTPS, 
 
 ## HTTP(S) Load Balancer Terminology
 
-Google has its own vocabulary for the Load Balancer that can be confusing. Here's a helpful guide:
+GCP uses non-standard vocabulary for load balancing concepts. In case you're unfamiliar with load balancing on GCP, here's a short guide:
 
 - **[Global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules)** route traffic by IP address, port, and protocol to a load balancing configuration consisting of a target proxy, URL map, and one or more backend services.
 - **[Target proxies](https://cloud.google.com/load-balancing/docs/target-proxies)** terminate HTTP(S) connections from clients. One or more global forwarding rules direct traffic to the target proxy, and the target proxy consults the URL map to determine how to route traffic to backends. 
