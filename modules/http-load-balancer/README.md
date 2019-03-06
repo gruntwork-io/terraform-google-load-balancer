@@ -32,7 +32,7 @@ This will create an A records for each domain provided in `custom_domain_names` 
 
 You can enable SSL with the input variable `enable_ssl`.
 
-To use HTTPS or SSL load balancing, you must associate at least one SSL certificate with the load balancer's target proxy. You can configure the target proxy with up to ten SSL certificates.
+To use HTTPS or SSL load balancing, you must associate at least one SSL certificate with the load balancer's target proxy using the `ssl_certificates` input variable. You can configure the target proxy with up to ten SSL certificates.
 
 For HTTP(S) Proxy Load Balancing, *Google encrypts traffic between the load balancer and backend instances.* SSL certificate resources *are not required* on individual VM instances.
 
