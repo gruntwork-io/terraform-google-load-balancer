@@ -58,7 +58,7 @@ HTTP(S) Load Balancing log entries contain information useful for monitoring and
 
 - General information shown in most GCP logs, such as severity, project ID, project number, timestamp, and so on.
 - [HttpRequest](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#HttpRequest) log fields. However, `HttpRequest.protocol` and `HttpRequest.latency` are not populated for HTTP(S) Load Balancing Stackdriver logs.
-- a `statusDetails` field inside the `structPayload`. This field holds a string that explains why the load balancer returned the HTTP status that it did. The tables below contain further explanations of these log strings.
+- a `statusDetails` field inside the `structPayload`. This field holds a string that explains why the load balancer returned the HTTP status that it did.
 
 ### Monitoring
 
