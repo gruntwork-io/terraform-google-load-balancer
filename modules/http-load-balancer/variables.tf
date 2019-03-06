@@ -7,10 +7,6 @@ variable "project" {
   description = "The project ID to create the resources in."
 }
 
-variable "region" {
-  description = "The region to create the resources in."
-}
-
 variable "name" {
   description = "Name for the load balancer forwarding rule and prefix for supporting resources."
 }
