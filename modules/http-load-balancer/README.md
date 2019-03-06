@@ -30,7 +30,7 @@ This will create an A records for each domain provided in `custom_domain_names` 
 
 ## How Do You Configure SSL?
 
-You can enable SSL with input variable `enable_ssl`.
+You can enable SSL with the input variable `enable_ssl`.
 
 To use HTTPS or SSL load balancing, you must associate at least one SSL certificate with the load balancer's target proxy. You can configure the target proxy with up to ten SSL certificates.
 
