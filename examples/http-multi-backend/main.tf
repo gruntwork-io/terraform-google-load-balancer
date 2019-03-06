@@ -82,8 +82,6 @@ resource "google_compute_backend_service" "api" {
     group = "${google_compute_instance_group.api.self_link}"
   }
 
-  backend {}
-
   health_checks = ["${google_compute_health_check.default.self_link}"]
 
   depends_on = ["google_compute_instance_group.api"]
