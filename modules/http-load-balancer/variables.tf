@@ -36,7 +36,7 @@ variable "enable_http" {
 }
 
 variable "create_dns_entries" {
-  description = "If set to true, create a DNS A Recordr in Cloud DNS for each domain specified in 'custom_domain_names'."
+  description = "If set to true, create a DNS A Record in Cloud DNS for each domain specified in 'custom_domain_names'."
   default     = false
 }
 
