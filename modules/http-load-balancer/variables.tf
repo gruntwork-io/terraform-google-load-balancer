@@ -12,7 +12,7 @@ variable "name" {
 }
 
 variable "url_map" {
-  description = "The url_map resource to use."
+  description = "A reference (self_link) to the url_map resource to use."
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

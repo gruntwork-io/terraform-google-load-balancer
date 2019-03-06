@@ -9,7 +9,7 @@ This repo contains modules to perform load balancing on [Google Cloud Platform (
 * [http-load-balancer](/modules/http-load-balancer): Deploy an [HTTP Load Balancer](https://cloud.google.com/load-balancing/docs/https/).
 
 
-## What is Cloud Load Balancer?
+## What is Cloud Load Balancing?
 
 [Cloud Load Balancing](https://cloud.google.com/load-balancing/) is a fully distributed, software-defined, managed service for all your traffic. It is not an instance or device based solution, so you won’t be locked into physical load balancing infrastructure or face the HA, scale and management challenges inherent in instance based LBs. Cloud Load Balancing features include:  
 
