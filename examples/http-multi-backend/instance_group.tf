@@ -1,5 +1,8 @@
 # ------------------------------------------------------------------------------
 # CREATE THE INSTANCE GROUP WITH A SINGLE INSTANCE AND THE BACKEND SERVICE CONFIGURATION
+#
+# We use the instance group only to highlight the ability to specify multiple types
+# of backends for the load balancer
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance_group" "api" {
@@ -38,12 +41,13 @@ resource "google_compute_instance" "api" {
   # Make sure we have the flask application running
   metadata_startup_script = "${file("${path.module}/startup_script.sh")}"
 
-  # Launch the instance in the subnetwork
+  # Launch the instance in the default subnetwork
   network_interface {
-    subnetwork = "${google_compute_subnetwork.subnetwork.self_link}"
+    subnetwork = "default"
 
     # This gives the instance a public IP address for internet connectivity. Normally, you would have a Cloud NAT,
     # but for the sake of simplicity, we're assigning a public IP to get internet connectivity
+    # to be able to run startup scripts
     access_config {}
   }
 }

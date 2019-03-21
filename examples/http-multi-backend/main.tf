@@ -220,27 +220,6 @@ resource "google_compute_ssl_certificate" "certificate" {
 }
 
 # ------------------------------------------------------------------------------
-# CREATE NETWORKS TO PLACE THE INSTANCE IN
-# ------------------------------------------------------------------------------
-
-resource "google_compute_network" "network" {
-  provider                = "google-beta"
-  project                 = "${var.project}"
-  name                    = "${var.name}-network"
-  auto_create_subnetworks = "false"
-}
-
-resource "google_compute_subnetwork" "subnetwork" {
-  provider      = "google-beta"
-  project       = "${var.project}"
-  name          = "${var.name}-subnetwork"
-  ip_cidr_range = "10.10.0.0/17"
-  region        = "${var.region}"
-
-  network = "${google_compute_network.network.self_link}"
-}
-
-# ------------------------------------------------------------------------------
 # CREATE A FIREWALL TO ALLOW ACCESS FROM THE LB TO THE INSTANCE
 # ------------------------------------------------------------------------------
 
@@ -248,7 +227,7 @@ resource "google_compute_firewall" "firewall" {
   provider = "google-beta"
   project  = "${var.project}"
   name     = "${var.name}-fw"
-  network  = "${google_compute_network.network.name}"
+  network  = "default"
 
   # Allow load balancer access to the API instances
   # https://cloud.google.com/load-balancing/docs/https/#firewall_rules
