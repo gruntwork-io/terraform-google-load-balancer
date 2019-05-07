@@ -6,23 +6,23 @@ This repo contains modules to perform load balancing on [Google Cloud Platform (
 
 ## Quickstart
 
-If you want to quickly spin up a HTTP Load Balancer with multiple backends, you can run the example that is in the root of this repo. Check out the [http-load-balancer example documentation](./examples/http-load-balancer) for instructions.
+If you want to quickly spin up a HTTP Load Balancer with multiple backends, you can run the example that is in the root of this repo. Check out the [http-multi-backend example documentation](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples/http-multi-backend) for instructions.
 
 ## What's in this repo
 
 This repo has the following folder structure:
 
-* [root](./): The root folder contains an example of how to deploy a HTTP Load Balancer with multiple backends. See [http-multi-backend example documentation](./examples/http-multi-backend) for the documentation.
+* [root](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master): The root folder contains an example of how to deploy a HTTP Load Balancer with multiple backends. See [http-multi-backend example documentation](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples/http-multi-backend) for the documentation.
 
-* [modules](./modules): This folder contains the main implementation code for this Module.
+* [modules](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules): This folder contains the main implementation code for this Module.
 
   The primary module is:
 
-    * [http-load-balancer](./modules/http-load-balancer): The HTTP Load Balancer module is used to create an [HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
+    * [http-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer): The HTTP Load Balancer module is used to create an [HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
 
-* [examples](./examples): This folder contains examples of how to use the submodules.
+* [examples](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): This folder contains examples of how to use the submodules.
 
-* [test](./test): Automated tests for the submodules and examples.
+* [test](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/test): Automated tests for the submodules and examples.
 
 
 
