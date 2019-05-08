@@ -6,7 +6,6 @@ import (
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/test-structure"
-	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -29,28 +28,23 @@ const KEY_AZ = "az"
 
 const OUTPUT_LB_IP = "load_balancer_ip_address"
 
-const EXAMPLE_NAME_STATIC_SITE = "http-multi-backend"
-
 func TestHttpLoadBalancerMultiBackend(t *testing.T) {
 	t.Parallel()
 
 	var testcases = []struct {
 		testName     string
-		exampleDir   string
 		createDomain bool
 		enableSsl    bool
 		enableHttp   bool
 	}{
 		{
 			"TestHttpAndIpOnly",
-			EXAMPLE_NAME_STATIC_SITE,
 			false,
 			false,
 			true,
 		},
 		{
 			"TestBothProtocolsWithDomain",
-			EXAMPLE_NAME_STATIC_SITE,
 			true,
 			true,
 			true,
@@ -70,8 +64,8 @@ func TestHttpLoadBalancerMultiBackend(t *testing.T) {
 			//os.Setenv("SKIP_http_tests", "true")
 			//os.Setenv("SKIP_teardown", "true")
 
-			_examplesDir := test_structure.CopyTerraformFolderToTemp(t, "../", "examples")
-			exampleDir := filepath.Join(_examplesDir, testCase.exampleDir)
+			// The example is the root example
+			exampleDir := test_structure.CopyTerraformFolderToTemp(t, "../", ".")
 
 			test_structure.RunTestStage(t, "bootstrap", func() {
 				logger.Logf(t, "Bootstrapping variables")
