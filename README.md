@@ -44,7 +44,7 @@ You can learn more about Cloud Load Balancing in [the official documentation](ht
 
 ## Who maintains this Module?
 
-This Module and its Submodules are maintained by [Gruntwork](http://www.gruntwork.io/). Read the [Gruntwork Philosophy](/GRUNTWORK_PHILOSOPHY.md) document to learn more about how Gruntwork builds production grade infrastructure code. If you are looking for help or
+This Module and its Submodules are maintained by [Gruntwork](http://www.gruntwork.io/). Read the [Gruntwork Philosophy](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/GRUNTWORK_PHILOSOPHY.md) document to learn more about how Gruntwork builds production grade infrastructure code. If you are looking for help or
 commercial support, send an email to
 [support@gruntwork.io](mailto:support@gruntwork.io?Subject=Google%20LB%20Module).
 
@@ -59,7 +59,7 @@ Gruntwork can help with:
 
 ## How do I contribute to this Module?
 
-Contributions are very welcome! Check out the [Contribution Guidelines](/CONTRIBUTING.md) for instructions.
+Contributions are very welcome! Check out the [Contribution Guidelines](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/CONTRIBUTING.md) for instructions.
 
 
 ## How is this Module versioned?
