@@ -1,5 +1,9 @@
 # Tests
 
+<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
+           relative linking correctly.
+-->
+
 This folder contains automated tests for this Module. All of the tests are written in [Go](https://golang.org/). 
 Most of these are "integration tests" that deploy real infrastructure using Terraform and verify that infrastructure works as expected using a helper library called [Terratest](https://github.com/gruntwork-io/terratest).  
 

@@ -1,17 +1,21 @@
 # HTTP(S) Load Balancer Module
 
+<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
+           relative linking correctly.
+-->
+
 This Terraform Module creates an [HTTP(S) Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
 
 HTTP(S) load balancing can balance HTTP and HTTPS traffic across multiple backend instances, across multiple regions. Your entire app is available via a single global IP address, resulting in a simplified DNS setup. HTTP(S) load balancing is scalable, fault-tolerant, requires no pre-warming, and enables content-based load balancing. 
 
 ## Quick Start
 
-* See the [http-multi-backend example](/examples/http-multi-backend) for working sample code.
-* Check out [variables.tf](variables.tf) for all parameters you can set for this module.
+* See the [http-multi-backend example](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/examples/http-multi-backend) for working sample code.
+* Check out [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/variables.tf) for all parameters you can set for this module.
 
 ## How do you configure this module
 
-This module allows you to configure a number of parameters, such as HTTP/HTTPS, Google-managed Certificates and custom domain name. For a list of all available variables and their descriptions, see [variables.tf](./variables.tf).
+This module allows you to configure a number of parameters, such as HTTP/HTTPS, Google-managed Certificates and custom domain name. For a list of all available variables and their descriptions, see [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/variables.tf).
 
 ## HTTP(S) Load Balancer Terminology
 

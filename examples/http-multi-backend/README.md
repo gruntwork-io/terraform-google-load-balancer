@@ -1,6 +1,10 @@
 # HTTP Load Balancer Example
 
-The root folder of this repo shows an example of how to use the [HTTP Load Balancer Module](/modules/http-load-balancer) to create a [HTTP Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) with 
+<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
+           relative linking correctly.
+-->
+
+The root folder of this repo shows an example of how to use the [HTTP Load Balancer Module](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/http-load-balancer) to create a [HTTP Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) with 
 
 * HTTP listener
 * Backend Cloud Storage Bucket with sample files
@@ -12,8 +16,7 @@ To run this example, you need to:
 
 1. Install [Terraform](https://www.terraform.io/).
 1. Make sure you are in the root folder of the repo.
-1. Open up `variables.tf` and set secrets at the top of the file as environment variables and fill in any other variables in
-   the file that don't have defaults. 
+1. Open up `variables.tf` and fill in variables that don't have defaults. 
 1. `terraform init`.
 1. `terraform plan`.
 1. If the plan looks good, run `terraform apply`.

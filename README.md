@@ -3,6 +3,10 @@
 
 # Cloud Load Balancer Modules
 
+<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
+           relative linking correctly.
+-->
+
 This repo contains modules to perform load balancing on [Google Cloud Platform (GCP)](https://cloud.google.com/) using [Google Cloud Load Balancing](https://cloud.google.com/load-balancing/).
 
 ## Quickstart
@@ -61,7 +65,7 @@ Contributions are very welcome! Check out the [Contribution Guidelines](/CONTRIB
 ## How is this Module versioned?
 
 This Module follows the principles of [Semantic Versioning](http://semver.org/). You can find each new release, along
-with the changelog, in the [Releases Page](../../releases).
+with the changelog, in the [Releases Page](https://github.com/gruntwork-io/terraform-google-load-balancer/releases).
 
 During initial development, the major version will be 0 (e.g., `0.x.y`), which indicates the code does not yet have a
 stable API. Once we hit `1.0.0`, we will make every effort to maintain a backwards compatible API and use the MAJOR,
@@ -70,4 +74,4 @@ MINOR, and PATCH versions on each release to indicate any incompatibilities.
 
 ## License
 
-Please see [LICENSE.txt](/LICENSE.txt) for details on how the code in this repo is licensed.
+Please see [LICENSE.txt](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/LICENSE.txt) for details on how the code in this repo is licensed.
