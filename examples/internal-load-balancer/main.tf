@@ -12,7 +12,7 @@
 # CONFIGURE OUR GCP CONNECTION
 # ------------------------------------------------------------------------------
 
-provider "google-beta" {
+provider "google" {
   region  = "${var.region}"
   project = "${var.project}"
 }
@@ -70,7 +70,6 @@ module "vpc_network" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance_group" "api" {
-  provider  = "google-beta"
   project   = "${var.project}"
   name      = "${var.name}-instance-group"
   zone      = "${var.zone}"
@@ -82,7 +81,6 @@ resource "google_compute_instance_group" "api" {
 }
 
 resource "google_compute_instance" "api" {
-  provider     = "google-beta"
   project      = "${var.project}"
   name         = "${var.name}-api-instance"
   machine_type = "f1-micro"
@@ -119,7 +117,6 @@ resource "google_compute_instance" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance" "proxy" {
-  provider     = "google-beta"
   project      = "${var.project}"
   name         = "${var.name}-proxy-instance"
   machine_type = "f1-micro"

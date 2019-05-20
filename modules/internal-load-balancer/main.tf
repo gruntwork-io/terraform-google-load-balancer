@@ -8,8 +8,6 @@
 # ------------------------------------------------------------------------------
 
 resource "google_compute_forwarding_rule" "default" {
-  provider = "google-beta"
-
   project               = "${var.project}"
   name                  = "${var.name}"
   region                = "${var.region}"
