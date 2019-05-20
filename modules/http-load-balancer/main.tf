@@ -26,6 +26,7 @@ resource "google_compute_target_http_proxy" "http" {
 }
 
 resource "google_compute_global_forwarding_rule" "http" {
+  provider   = "google-beta"
   count      = "${var.enable_http ? 1 : 0}"
   project    = "${var.project}"
   name       = "${var.name}-http-rule"
@@ -43,6 +44,7 @@ resource "google_compute_global_forwarding_rule" "http" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_global_forwarding_rule" "https" {
+  provider   = "google-beta"
   project    = "${var.project}"
   count      = "${var.enable_ssl ? 1 : 0}"
   name       = "${var.name}-https-rule"

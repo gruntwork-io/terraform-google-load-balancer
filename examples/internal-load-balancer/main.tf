@@ -17,6 +17,11 @@ provider "google" {
   project = "${var.project}"
 }
 
+provider "google-beta" {
+  region  = "${var.region}"
+  project = "${var.project}"
+}
+
 # ------------------------------------------------------------------------------
 # CREATE THE INTERNAL TCP LOAD BALANCER
 # ------------------------------------------------------------------------------

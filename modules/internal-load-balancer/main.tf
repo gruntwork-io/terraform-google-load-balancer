@@ -8,6 +8,7 @@
 # ------------------------------------------------------------------------------
 
 resource "google_compute_forwarding_rule" "default" {
+  provider              = "google-beta"
   project               = "${var.project}"
   name                  = "${var.name}"
   region                = "${var.region}"
@@ -20,8 +21,10 @@ resource "google_compute_forwarding_rule" "default" {
   ports                 = ["${var.ports}"]
 
   # If service label is specified, it will be the first label of the fully qualified service name.
-  service_label = "${var.service_label}"
+  # Due to the provider failing with an empty string, we're setting the name as service label default
+  service_label = "${var.service_label == "" ? var.name : var.service_label}"
 
+  # This is a beta feature
   labels = "${var.custom_labels}"
 }
 
