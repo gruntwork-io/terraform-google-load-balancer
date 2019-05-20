@@ -23,7 +23,7 @@ This repo has the following folder structure:
 
   The primary modules are:
 
-    * [http-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer) is used to create an [HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
+    * [http-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer) is used to create an [HTTP(S) External Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
     * [internal-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/internal-load-balancer) is used to create an [Internal TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/internal/) using [internal forwarding rules](https://cloud.google.com/load-balancing/docs/internal/#forwarding_rule).
                                                                                                                                            
 * [examples](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): This folder contains examples of how to use the submodules.
