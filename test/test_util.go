@@ -106,7 +106,7 @@ func (err ValidationFunctionFailed) Error() string {
 	return fmt.Sprintf("Validation failed for URL %s. Response status: %d. Response body:\n%s", err.Url, err.Status, err.Body)
 }
 
-func TestWebsite(t *testing.T, protocol string, url string, path string, expectedStatus int, expectedBody string) {
+func VerifyResponse(t *testing.T, protocol string, url string, path string, expectedStatus int, expectedBody string) {
 	finalUrl := fmt.Sprintf("%s://%s%s", protocol, url, path)
 	// Go seems to cache the DNS results quite heavily, so we'll add
 	// a lot of time to survive that

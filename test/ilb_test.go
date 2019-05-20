@@ -91,8 +91,8 @@ func TestInternalLoadBalancer(t *testing.T) {
 
 				expectedBody := "Hello, api!"
 
-				TestWebsite(t, "http", proxyIp, "/nameproxy", 200, expectedBody)
-				TestWebsite(t, "http", proxyIp, "/ipproxy", 200, expectedBody)
+				VerifyResponse(t, "http", proxyIp, "/nameproxy", 200, expectedBody)
+				VerifyResponse(t, "http", proxyIp, "/ipproxy", 200, expectedBody)
 			})
 		})
 	}

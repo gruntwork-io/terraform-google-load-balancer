@@ -110,15 +110,15 @@ func TestHttpLoadBalancerMultiBackend(t *testing.T) {
 				expectedNotFoundBody := "Uh oh"
 
 				if testCase.enableHttp {
-					TestWebsite(t, "http", domainName, "", 200, expectedIndexBody)
-					TestWebsite(t, "http", domainName, "/api", 200, expectedApiBody)
-					TestWebsite(t, "http", domainName, "/bogus", 404, expectedNotFoundBody)
+					VerifyResponse(t, "http", domainName, "", 200, expectedIndexBody)
+					VerifyResponse(t, "http", domainName, "/api", 200, expectedApiBody)
+					VerifyResponse(t, "http", domainName, "/bogus", 404, expectedNotFoundBody)
 				}
 
 				if testCase.enableSsl {
-					TestWebsite(t, "https", domainName, "", 200, expectedIndexBody)
-					TestWebsite(t, "https", domainName, "/api", 200, expectedApiBody)
-					TestWebsite(t, "https", domainName, "/bogus", 404, expectedNotFoundBody)
+					VerifyResponse(t, "https", domainName, "", 200, expectedIndexBody)
+					VerifyResponse(t, "https", domainName, "/api", 200, expectedApiBody)
+					VerifyResponse(t, "https", domainName, "/bogus", 404, expectedNotFoundBody)
 				}
 			})
 
