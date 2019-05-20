@@ -7,7 +7,7 @@
 This folder shows an example of how to use the [Internal Load Balancer Module](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/internal-load-balancer) to create an [Internal TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/internal/) with 
 
 * An Instance Group to route the requests to
-* Compute instance with public IP address to proxy requests to the load balancer,
+* and a Compute instance with a public IP address to proxy requests to the load balancer.
 
 ## How do you run this example?
 
