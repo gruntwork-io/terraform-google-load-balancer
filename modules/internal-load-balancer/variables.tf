@@ -15,6 +15,11 @@ variable "name" {
   description = "Name for the load balancer forwarding rule and prefix for supporting resources."
 }
 
+variable "ports" {
+  description = "List of ports (or port ranges) to forward to backend services. Max is 5."
+  type        = "list"
+}
+
 variable "health_check_port" {
   description = "Port to perform health checks on."
 }
@@ -65,11 +70,6 @@ variable "service_label" {
 variable "network_project" {
   description = "The name of the GCP Project where the network is located. Useful when using networks shared between projects. If empty, var.project will be used."
   default     = ""
-}
-
-variable "ports" {
-  description = "List of ports range to forward to backend services. Max is 5."
-  type        = "list"
 }
 
 variable "http_health_check" {
