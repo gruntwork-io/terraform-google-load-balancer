@@ -1,4 +1,4 @@
-# Interanal Load Balancer Example
+# Internal Load Balancer Example
 
 <!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
            relative linking correctly.
