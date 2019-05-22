@@ -8,7 +8,6 @@
 # ------------------------------------------------------------------------------
 
 resource "google_compute_global_address" "default" {
-  provider     = "google-beta"
   project      = "${var.project}"
   name         = "${var.name}-address"
   ip_version   = "IPV4"
@@ -20,16 +19,15 @@ resource "google_compute_global_address" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_target_http_proxy" "http" {
-  count    = "${var.enable_http ? 1 : 0}"
-  provider = "google-beta"
-  project  = "${var.project}"
-  name     = "${var.name}-http-proxy"
-  url_map  = "${var.url_map}"
+  count   = "${var.enable_http ? 1 : 0}"
+  project = "${var.project}"
+  name    = "${var.name}-http-proxy"
+  url_map = "${var.url_map}"
 }
 
 resource "google_compute_global_forwarding_rule" "http" {
-  count      = "${var.enable_http ? 1 : 0}"
   provider   = "google-beta"
+  count      = "${var.enable_http ? 1 : 0}"
   project    = "${var.project}"
   name       = "${var.name}-http-rule"
   target     = "${google_compute_target_http_proxy.http.self_link}"
@@ -59,11 +57,10 @@ resource "google_compute_global_forwarding_rule" "https" {
 }
 
 resource "google_compute_target_https_proxy" "default" {
-  project  = "${var.project}"
-  provider = "google-beta"
-  count    = "${var.enable_ssl ? 1 : 0}"
-  name     = "${var.name}-https-proxy"
-  url_map  = "${var.url_map}"
+  project = "${var.project}"
+  count   = "${var.enable_ssl ? 1 : 0}"
+  name    = "${var.name}-https-proxy"
+  url_map = "${var.url_map}"
 
   ssl_certificates = ["${var.ssl_certificates}"]
 }
@@ -73,9 +70,8 @@ resource "google_compute_target_https_proxy" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_dns_record_set" "dns" {
-  provider = "google-beta"
-  project  = "${var.project}"
-  count    = "${var.create_dns_entries ? length(var.custom_domain_names) : 0}"
+  project = "${var.project}"
+  count   = "${var.create_dns_entries ? length(var.custom_domain_names) : 0}"
 
   name = "${element(var.custom_domain_names, count.index)}."
   type = "A"

@@ -6,12 +6,25 @@ import (
 	"github.com/gruntwork-io/terratest/modules/gcp"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/retry"
+	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"testing"
 	"time"
 )
+
+const ROOT_DOMAIN_NAME_FOR_TEST = "gcloud-test.com"
+const MANAGED_ZONE_NAME_FOR_TEST = "gcloudtest"
+
+//const ROOT_DOMAIN_NAME_FOR_TEST = "gcloud-dev.com"
+//const MANAGED_ZONE_NAME_FOR_TEST = "gclouddev"
+
+const KEY_PROJECT = "project"
+const KEY_DOMAIN_NAME = "domain-name"
+const KEY_NAME = "name"
+const KEY_REGION = "region"
+const KEY_ZONE = "zone"
 
 func getRandomRegion(t *testing.T, projectID string) string {
 	approvedRegions := []string{"europe-north1", "europe-west1", "europe-west2", "europe-west3", "us-central1", "us-east1", "us-west1"}
@@ -91,4 +104,12 @@ type ValidationFunctionFailed struct {
 
 func (err ValidationFunctionFailed) Error() string {
 	return fmt.Sprintf("Validation failed for URL %s. Response status: %d. Response body:\n%s", err.Url, err.Status, err.Body)
+}
+
+func VerifyResponse(t *testing.T, protocol string, url string, path string, expectedStatus int, expectedBody string) {
+	finalUrl := fmt.Sprintf("%s://%s%s", protocol, url, path)
+	// Go seems to cache the DNS results quite heavily, so we'll add
+	// a lot of time to survive that
+	err := HttpGetWithRetryE(t, finalUrl, expectedStatus, expectedBody, 30, 30*time.Second)
+	assert.NoError(t, err, "Failed to call URL %s", url)
 }

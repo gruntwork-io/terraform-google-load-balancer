@@ -9,6 +9,11 @@
 # CONFIGURE OUR GCP CONNECTION
 # ------------------------------------------------------------------------------
 
+provider "google" {
+  region  = "${var.region}"
+  project = "${var.project}"
+}
+
 provider "google-beta" {
   region  = "${var.region}"
   project = "${var.project}"
@@ -39,8 +44,7 @@ module "lb" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_url_map" "urlmap" {
-  provider = "google-beta"
-  project  = "${var.project}"
+  project = "${var.project}"
 
   name        = "${var.name}-url-map"
   description = "URL map for ${var.name}"
@@ -68,8 +72,7 @@ resource "google_compute_url_map" "urlmap" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_backend_service" "api" {
-  provider = "google-beta"
-  project  = "${var.project}"
+  project = "${var.project}"
 
   name        = "${var.name}-api"
   description = "API Backend for ${var.name}"
@@ -92,9 +95,8 @@ resource "google_compute_backend_service" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_health_check" "default" {
-  provider = "google-beta"
-  project  = "${var.project}"
-  name     = "${var.name}-hc"
+  project = "${var.project}"
+  name    = "${var.name}-hc"
 
   http_health_check {
     port         = 5000
@@ -110,8 +112,6 @@ resource "google_compute_health_check" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_storage_bucket" "static" {
-  provider = "google-beta"
-
   project = "${var.project}"
 
   name          = "${var.name}-bucket"
@@ -133,8 +133,7 @@ resource "google_storage_bucket" "static" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_backend_bucket" "static" {
-  provider = "google-beta"
-  project  = "${var.project}"
+  project = "${var.project}"
 
   name        = "${var.name}-backend-bucket"
   bucket_name = "${google_storage_bucket.static.name}"
@@ -145,7 +144,6 @@ resource "google_compute_backend_bucket" "static" {
 # ------------------------------------------------------------------------------
 
 resource "google_storage_default_object_acl" "website_acl" {
-  provider    = "google-beta"
   bucket      = "${google_storage_bucket.static.name}"
   role_entity = ["READER:allUsers"]
 }
@@ -204,8 +202,7 @@ resource "tls_private_key" "private_key" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_ssl_certificate" "certificate" {
-  project  = "${var.project}"
-  provider = "google-beta"
+  project = "${var.project}"
 
   count = "${var.enable_ssl ? 1 : 0}"
 
@@ -227,7 +224,6 @@ resource "google_compute_ssl_certificate" "certificate" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance_group" "api" {
-  provider  = "google-beta"
   project   = "${var.project}"
   name      = "${var.name}-instance-group"
   zone      = "${var.zone}"
@@ -244,7 +240,6 @@ resource "google_compute_instance_group" "api" {
 }
 
 resource "google_compute_instance" "api" {
-  provider     = "google-beta"
   project      = "${var.project}"
   name         = "${var.name}-instance"
   machine_type = "f1-micro"
@@ -260,7 +255,7 @@ resource "google_compute_instance" "api" {
   }
 
   # Make sure we have the flask application running
-  metadata_startup_script = "${file("${path.module}/examples/http-multi-backend/startup_script.sh")}"
+  metadata_startup_script = "${file("${path.module}/examples/shared/startup_script.sh")}"
 
   # Launch the instance in the default subnetwork
   network_interface {
@@ -278,10 +273,9 @@ resource "google_compute_instance" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_firewall" "firewall" {
-  provider = "google-beta"
-  project  = "${var.project}"
-  name     = "${var.name}-fw"
-  network  = "default"
+  project = "${var.project}"
+  name    = "${var.name}-fw"
+  network = "default"
 
   # Allow load balancer access to the API instances
   # https://cloud.google.com/load-balancing/docs/https/#firewall_rules
