@@ -32,6 +32,7 @@
     "aws/credentials/endpointcreds",
     "aws/credentials/processcreds",
     "aws/credentials/stscreds",
+    "aws/crr",
     "aws/csm",
     "aws/defaults",
     "aws/ec2metadata",
@@ -59,7 +60,9 @@
     "service/acm",
     "service/autoscaling",
     "service/cloudwatchlogs",
+    "service/dynamodb",
     "service/ec2",
+    "service/ecs",
     "service/iam",
     "service/kms",
     "service/rds",
@@ -68,6 +71,7 @@
     "service/s3/s3manager",
     "service/sns",
     "service/sqs",
+    "service/ssm",
     "service/sts",
   ]
   pruneopts = ""
@@ -227,7 +231,7 @@
   version = "v0.4.2"
 
 [[projects]]
-  digest = "1:d50c946b1e5648ff52c06669c2a4afcb486ddff61c51c1158b3f03e34e85280f"
+  digest = "1:338e2e6889b617e5478596733b84d50537422088db2a23488d421134fac8780d"
   name = "github.com/gruntwork-io/terratest"
   packages = [
     "modules/aws",
@@ -247,8 +251,8 @@
     "modules/test-structure",
   ]
   pruneopts = ""
-  revision = "06f1145556f034f008e635bea32ed9555985d596"
-  version = "v0.13.30"
+  revision = "f3916f7a5f58e3fedf603388d3e3e8052d6a47a3"
+  version = "v0.16.1"
 
 [[projects]]
   digest = "1:31bfd110d31505e9ffbc9478e31773bf05bf02adcaeb9b139af42684f9294c13"
@@ -503,6 +507,7 @@
     "internal",
     "iterator",
     "option",
+    "oslogin/v1",
     "storage/v1",
     "transport/http",
     "transport/http/internal/propagation",

@@ -8,18 +8,24 @@
 # public subnet that can relay the calls to the load balancer.
 # ---------------------------------------------------------------------------------------------------------------------
 
+terraform {
+  # The modules used in this example have been updated with 0.12 syntax, which means the example is no longer
+  # compatible with any versions below 0.12.
+  required_version = ">= 0.12"
+}
+
 # ------------------------------------------------------------------------------
 # CONFIGURE OUR GCP CONNECTION
 # ------------------------------------------------------------------------------
 
 provider "google" {
-  region  = "${var.region}"
-  project = "${var.project}"
+  region  = var.region
+  project = var.project
 }
 
 provider "google-beta" {
-  region  = "${var.region}"
-  project = "${var.project}"
+  region  = var.region
+  project = var.project
 }
 
 # ------------------------------------------------------------------------------
@@ -29,30 +35,30 @@ provider "google-beta" {
 module "lb" {
   source = "../../modules/internal-load-balancer"
 
-  name    = "${var.name}"
-  region  = "${var.region}"
-  project = "${var.project}"
+  name    = var.name
+  region  = var.region
+  project = var.project
 
   backends = [
     {
       description = "Instance group for internal-load-balancer test"
-      group       = "${google_compute_instance_group.api.self_link}"
+      group       = google_compute_instance_group.api.self_link
     },
   ]
 
   # This setting will enable internal DNS for the load balancer
-  service_label = "${var.name}"
+  service_label = var.name
 
-  network    = "${module.vpc_network.network}"
-  subnetwork = "${module.vpc_network.public_subnetwork}"
+  network    = module.vpc_network.network
+  subnetwork = module.vpc_network.public_subnetwork
 
   health_check_port = 5000
   http_health_check = false
-  target_tags       = ["${var.name}"]
-  source_tags       = ["${var.name}"]
+  target_tags       = [var.name]
+  source_tags       = [var.name]
   ports             = ["5000"]
 
-  custom_labels = "${var.custom_labels}"
+  custom_labels = var.custom_labels
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -60,11 +66,11 @@ module "lb" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "vpc_network" {
-  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=v0.1.2"
+  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=tf12"
 
-  name_prefix = "${var.name}"
-  project     = "${var.project}"
-  region      = "${var.region}"
+  name_prefix = var.name
+  project     = var.project
+  region      = var.region
 
   cidr_block           = "10.1.0.0/16"
   secondary_cidr_block = "10.2.0.0/16"
@@ -75,10 +81,10 @@ module "vpc_network" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance_group" "api" {
-  project   = "${var.project}"
+  project   = var.project
   name      = "${var.name}-instance-group"
-  zone      = "${var.zone}"
-  instances = ["${google_compute_instance.api.self_link}"]
+  zone      = var.zone
+  instances = [google_compute_instance.api.self_link]
 
   lifecycle {
     create_before_destroy = true
@@ -86,18 +92,15 @@ resource "google_compute_instance_group" "api" {
 }
 
 resource "google_compute_instance" "api" {
-  project      = "${var.project}"
+  project      = var.project
   name         = "${var.name}-api-instance"
   machine_type = "f1-micro"
-  zone         = "${var.zone}"
+  zone         = var.zone
 
   # We're tagging the instance with the tag specified in the firewall rule
   tags = [
-    # Match the tag with the load balancer target and source tags
-    "${var.name}",
-
-    # Apply network firewall rules, for details, see https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
-    "${module.vpc_network.private}",
+    var.name,
+    module.vpc_network.private,
   ]
 
   boot_disk {
@@ -107,13 +110,13 @@ resource "google_compute_instance" "api" {
   }
 
   # Make sure we have the api flask application running
-  metadata_startup_script = "${file("${path.module}/../shared/startup_script.sh")}"
+  metadata_startup_script = file("${path.module}/../shared/startup_script.sh")
 
   # Launch the instance in the public subnetwork
   # For details, see https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
   network_interface {
-    network    = "${module.vpc_network.network}"
-    subnetwork = "${module.vpc_network.public_subnetwork}"
+    network    = module.vpc_network.network
+    subnetwork = module.vpc_network.public_subnetwork
   }
 }
 
@@ -122,18 +125,15 @@ resource "google_compute_instance" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance" "proxy" {
-  project      = "${var.project}"
+  project      = var.project
   name         = "${var.name}-proxy-instance"
   machine_type = "f1-micro"
-  zone         = "${var.zone}"
+  zone         = var.zone
 
   # We're tagging the instance with the tag specified in the firewall rule
   tags = [
-    # This tag allows calls to the api instances via the lb
-    "${var.name}",
-
-    # Apply network firewall rules, for details, see https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
-    "${module.vpc_network.public}",
+    var.name,
+    module.vpc_network.public,
   ]
 
   boot_disk {
@@ -143,13 +143,13 @@ resource "google_compute_instance" "proxy" {
   }
 
   # Make sure we have the proxy flask application running
-  metadata_startup_script = "${data.template_file.proxy_startup_script.rendered}"
+  metadata_startup_script = data.template_file.proxy_startup_script.rendered
 
   # Launch the instance in the public subnetwork
   # For details, see https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
   network_interface {
-    network    = "${module.vpc_network.network}"
-    subnetwork = "${module.vpc_network.public_subnetwork}"
+    network    = module.vpc_network.network
+    subnetwork = module.vpc_network.public_subnetwork
 
     access_config {
       // Ephemeral IP
@@ -158,11 +158,12 @@ resource "google_compute_instance" "proxy" {
 }
 
 data "template_file" "proxy_startup_script" {
-  template = "${file("${path.module}/startup_script.sh")}"
+  template = file("${path.module}/startup_script.sh")
 
   # Pass in the internal DNS name and private IP address of the LB
   vars = {
-    ilb_address = "${module.lb.load_balancer_domain_name}"
-    ilb_ip      = "${module.lb.load_balancer_ip_address}"
+    ilb_address = module.lb.load_balancer_domain_name
+    ilb_ip      = module.lb.load_balancer_ip_address
   }
 }
+
