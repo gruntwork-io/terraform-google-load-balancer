@@ -17,7 +17,7 @@ variable "name" {
 
 variable "ports" {
   description = "List of ports (or port ranges) to forward to backend services. Max is 5."
-  type        = "list"
+  type        = list(string)
 }
 
 variable "health_check_port" {
@@ -25,9 +25,8 @@ variable "health_check_port" {
 }
 
 variable "backends" {
-  description = "List of backends, should be a map of key-value pairs for each backend, mush have the 'group' key."
-  type        = "list"
-
+  description = "List of backends, should be a map of key-value pairs for each backend, must have the 'group' key."
+  type        = list(map(string))
   # Example
   # backends = [
   #   {
@@ -84,18 +83,19 @@ variable "session_affinity" {
 
 variable "source_tags" {
   description = "List of source tags for traffic between the internal load balancer."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "target_tags" {
   description = "List of target tags for traffic between the internal load balancer."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "custom_labels" {
   description = "A map of custom labels to apply to the resources. The key is the label name and the value is the label value."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
+
