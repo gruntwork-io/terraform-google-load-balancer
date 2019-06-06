@@ -5,18 +5,24 @@
 # with multiple backends and optionally ssl and custom domain.
 # ---------------------------------------------------------------------------------------------------------------------
 
+terraform {
+  # The modules used in this example have been updated with 0.12 syntax, which means the example is no longer
+  # compatible with any versions below 0.12.
+  required_version = ">= 0.12"
+}
+
 # ------------------------------------------------------------------------------
 # CONFIGURE OUR GCP CONNECTION
 # ------------------------------------------------------------------------------
 
 provider "google" {
-  region  = "${var.region}"
-  project = "${var.project}"
+  region  = var.region
+  project = var.project
 }
 
 provider "google-beta" {
-  region  = "${var.region}"
-  project = "${var.project}"
+  region  = var.region
+  project = var.project
 }
 
 # ------------------------------------------------------------------------------
@@ -25,18 +31,18 @@ provider "google-beta" {
 
 module "lb" {
   source                = "./modules/http-load-balancer"
-  name                  = "${var.name}"
-  project               = "${var.project}"
-  url_map               = "${google_compute_url_map.urlmap.self_link}"
-  dns_managed_zone_name = "${var.dns_managed_zone_name}"
-  custom_domain_names   = ["${var.custom_domain_name}"]
-  create_dns_entries    = "${var.create_dns_entry}"
-  dns_record_ttl        = "${var.dns_record_ttl}"
-  enable_http           = "${var.enable_http}"
-  enable_ssl            = "${var.enable_ssl}"
-  ssl_certificates      = ["${google_compute_ssl_certificate.certificate.*.self_link}"]
+  name                  = var.name
+  project               = var.project
+  url_map               = google_compute_url_map.urlmap.self_link
+  dns_managed_zone_name = var.dns_managed_zone_name
+  custom_domain_names   = [var.custom_domain_name]
+  create_dns_entries    = var.create_dns_entry
+  dns_record_ttl        = var.dns_record_ttl
+  enable_http           = var.enable_http
+  enable_ssl            = var.enable_ssl
+  ssl_certificates      = [google_compute_ssl_certificate.certificate.*.self_link]
 
-  custom_labels = "${var.custom_labels}"
+  custom_labels = var.custom_labels
 }
 
 # ------------------------------------------------------------------------------
@@ -44,25 +50,25 @@ module "lb" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_url_map" "urlmap" {
-  project = "${var.project}"
+  project = var.project
 
-  name        = "${var.name}-url-map"
-  description = "URL map for ${var.name}"
+  name        = var.name + "-url-map"
+  description = "URL map for " + var.name
 
-  default_service = "${google_compute_backend_bucket.static.self_link}"
+  default_service = google_compute_backend_bucket.static.self_link
 
-  host_rule = {
+  host_rule {
     hosts        = ["*"]
     path_matcher = "all"
   }
 
-  path_matcher = {
+  path_matcher {
     name            = "all"
-    default_service = "${google_compute_backend_bucket.static.self_link}"
+    default_service = google_compute_backend_bucket.static.self_link
 
     path_rule {
       paths   = ["/api", "/api/*"]
-      service = "${google_compute_backend_service.api.self_link}"
+      service = google_compute_backend_service.api.self_link
     }
   }
 }
@@ -72,22 +78,22 @@ resource "google_compute_url_map" "urlmap" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_backend_service" "api" {
-  project = "${var.project}"
+  project = var.project
 
-  name        = "${var.name}-api"
-  description = "API Backend for ${var.name}"
+  name        = var.name + "-api"
+  description = "API Backend for " + var.name
   port_name   = "http"
   protocol    = "HTTP"
   timeout_sec = 10
   enable_cdn  = false
 
   backend {
-    group = "${google_compute_instance_group.api.self_link}"
+    group = google_compute_instance_group.api.self_link
   }
 
-  health_checks = ["${google_compute_health_check.default.self_link}"]
+  health_checks = [google_compute_health_check.default.self_link]
 
-  depends_on = ["google_compute_instance_group.api"]
+  depends_on = [google_compute_instance_group.api]
 }
 
 # ------------------------------------------------------------------------------
@@ -95,8 +101,8 @@ resource "google_compute_backend_service" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_health_check" "default" {
-  project = "${var.project}"
-  name    = "${var.name}-hc"
+  project = var.project
+  name    = var.name + "-hc"
 
   http_health_check {
     port         = 5000
@@ -112,10 +118,10 @@ resource "google_compute_health_check" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_storage_bucket" "static" {
-  project = "${var.project}"
+  project = var.project
 
-  name          = "${var.name}-bucket"
-  location      = "${var.static_content_bucket_location}"
+  name          = var.name + "-bucket"
+  location      = var.static_content_bucket_location
   storage_class = "MULTI_REGIONAL"
 
   website {
@@ -125,7 +131,7 @@ resource "google_storage_bucket" "static" {
 
   force_destroy = true
 
-  labels = "${var.custom_labels}"
+  labels = var.custom_labels
 }
 
 # ------------------------------------------------------------------------------
@@ -133,10 +139,10 @@ resource "google_storage_bucket" "static" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_backend_bucket" "static" {
-  project = "${var.project}"
+  project = var.project
 
-  name        = "${var.name}-backend-bucket"
-  bucket_name = "${google_storage_bucket.static.name}"
+  name        = var.name + "-backend-bucket"
+  bucket_name = google_storage_bucket.static.name
 }
 
 # ------------------------------------------------------------------------------
@@ -144,26 +150,26 @@ resource "google_compute_backend_bucket" "static" {
 # ------------------------------------------------------------------------------
 
 resource "google_storage_default_object_acl" "website_acl" {
-  bucket      = "${google_storage_bucket.static.name}"
+  bucket      = google_storage_bucket.static.name
   role_entity = ["READER:allUsers"]
 }
 
 resource "google_storage_bucket_object" "index" {
   name    = "index.html"
   content = "Hello, World!"
-  bucket  = "${google_storage_bucket.static.name}"
+  bucket  = google_storage_bucket.static.name
 
   # We have to depend on the ACL because otherwise the ACL could get created after the object
-  depends_on = ["google_storage_default_object_acl.website_acl"]
+  depends_on = [google_storage_default_object_acl.website_acl]
 }
 
 resource "google_storage_bucket_object" "not_found" {
   name    = "404.html"
   content = "Uh oh"
-  bucket  = "${google_storage_bucket.static.name}"
+  bucket  = google_storage_bucket.static.name
 
   # We have to depend on the ACL because otherwise the ACL could get created after the object
-  depends_on = ["google_storage_default_object_acl.website_acl"]
+  depends_on = [google_storage_default_object_acl.website_acl]
 }
 
 # ------------------------------------------------------------------------------
@@ -172,13 +178,13 @@ resource "google_storage_bucket_object" "not_found" {
 
 resource "tls_self_signed_cert" "cert" {
   # Only create if SSL is enabled
-  count = "${var.enable_ssl ? 1 : 0}"
+  count = var.enable_ssl ? 1 : 0
 
   key_algorithm   = "RSA"
-  private_key_pem = "${join("", tls_private_key.private_key.*.private_key_pem)}"
+  private_key_pem = join("", tls_private_key.private_key.*.private_key_pem)
 
   subject {
-    common_name  = "${var.custom_domain_name}"
+    common_name  = var.custom_domain_name
     organization = "Examples, Inc"
   }
 
@@ -192,7 +198,7 @@ resource "tls_self_signed_cert" "cert" {
 }
 
 resource "tls_private_key" "private_key" {
-  count       = "${var.enable_ssl ? 1 : 0}"
+  count       = var.enable_ssl ? 1 : 0
   algorithm   = "RSA"
   ecdsa_curve = "P256"
 }
@@ -202,14 +208,14 @@ resource "tls_private_key" "private_key" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_ssl_certificate" "certificate" {
-  project = "${var.project}"
+  project = var.project
 
-  count = "${var.enable_ssl ? 1 : 0}"
+  count = var.enable_ssl ? 1 : 0
 
-  name_prefix = "${var.name}"
+  name_prefix = var.name
   description = "SSL Certificate"
-  private_key = "${join("", tls_private_key.private_key.*.private_key_pem)}"
-  certificate = "${join("", tls_self_signed_cert.cert.*.cert_pem)}"
+  private_key = join("", tls_private_key.private_key.*.private_key_pem)
+  certificate = join("", tls_self_signed_cert.cert.*.cert_pem)
 
   lifecycle {
     create_before_destroy = true
@@ -224,10 +230,10 @@ resource "google_compute_ssl_certificate" "certificate" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_instance_group" "api" {
-  project   = "${var.project}"
-  name      = "${var.name}-instance-group"
-  zone      = "${var.zone}"
-  instances = ["${google_compute_instance.api.self_link}"]
+  project   = var.project
+  name      = var.name + "-instance-group"
+  zone      = var.zone
+  instances = [google_compute_instance.api.self_link]
 
   lifecycle {
     create_before_destroy = true
@@ -240,10 +246,10 @@ resource "google_compute_instance_group" "api" {
 }
 
 resource "google_compute_instance" "api" {
-  project      = "${var.project}"
-  name         = "${var.name}-instance"
+  project      = var.project
+  name         = var.name + "-instance"
   machine_type = "f1-micro"
-  zone         = "${var.zone}"
+  zone         = var.zone
 
   # We're tagging the instance with the tag specified in the firewall rule
   tags = ["private-app"]
@@ -255,7 +261,7 @@ resource "google_compute_instance" "api" {
   }
 
   # Make sure we have the flask application running
-  metadata_startup_script = "${file("${path.module}/examples/shared/startup_script.sh")}"
+  metadata_startup_script = file(path.module + "/examples/shared/startup_script.sh")
 
   # Launch the instance in the default subnetwork
   network_interface {
@@ -264,7 +270,8 @@ resource "google_compute_instance" "api" {
     # This gives the instance a public IP address for internet connectivity. Normally, you would have a Cloud NAT,
     # but for the sake of simplicity, we're assigning a public IP to get internet connectivity
     # to be able to run startup scripts
-    access_config {}
+    access_config {
+    }
   }
 }
 
@@ -273,8 +280,8 @@ resource "google_compute_instance" "api" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_firewall" "firewall" {
-  project = "${var.project}"
-  name    = "${var.name}-fw"
+  project = var.project
+  name    = var.name + "-fw"
   network = "default"
 
   # Allow load balancer access to the API instances
@@ -289,3 +296,4 @@ resource "google_compute_firewall" "firewall" {
     ports    = ["5000"]
   }
 }
+
