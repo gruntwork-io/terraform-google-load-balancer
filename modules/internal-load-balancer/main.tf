@@ -47,11 +47,12 @@ resource "google_compute_region_backend_service" "default" {
 
   backend = [var.backends]
 
-  health_checks = [compact(
-    concat(
-      google_compute_health_check.tcp.*.self_link,
-      google_compute_health_check.http.*.self_link
-    )
+  health_checks = [
+    compact(
+      concat(
+        google_compute_health_check.tcp.*.self_link,
+        google_compute_health_check.http.*.self_link
+      )
   )[0]]
 }
 
@@ -63,7 +64,7 @@ resource "google_compute_health_check" "tcp" {
   count = var.http_health_check ? 0 : 1
 
   project = var.project
-  name    = var.name + "-hc"
+  name    = "${var.name}-hc"
 
   tcp_health_check {
     port = var.health_check_port
@@ -74,7 +75,7 @@ resource "google_compute_health_check" "http" {
   count = var.http_health_check ? 1 : 0
 
   project = var.project
-  name    = var.name + "-hc"
+  name    = "${var.name}-hc"
 
   http_health_check {
     port = var.health_check_port
@@ -88,7 +89,7 @@ resource "google_compute_health_check" "http" {
 # Load balancer firewall allows ingress traffic from instances tagged with any of the ´var.source_tags´
 resource "google_compute_firewall" "load_balancer" {
   project = var.network_project == "" ? var.project : var.network_project
-  name    = var.name + "-ilb-fw"
+  name    = "${var.name}-ilb-fw"
   network = var.network
 
   allow {
@@ -107,7 +108,7 @@ resource "google_compute_firewall" "load_balancer" {
 # Health check firewall allows ingress tcp traffic from the health check IP addresses
 resource "google_compute_firewall" "health_check" {
   project = var.network_project == "" ? var.project : var.network_project
-  name    = var.name + "-hc"
+  name    = "${var.name}-hc"
   network = var.network
 
   allow {
