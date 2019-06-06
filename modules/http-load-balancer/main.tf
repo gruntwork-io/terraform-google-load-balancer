@@ -14,7 +14,7 @@ terraform {
 
 resource "google_compute_global_address" "default" {
   project      = var.project
-  name         = var.name + "-address"
+  name         = "${var.name}-address"
   ip_version   = "IPV4"
   address_type = "EXTERNAL"
 }
@@ -26,7 +26,7 @@ resource "google_compute_global_address" "default" {
 resource "google_compute_target_http_proxy" "http" {
   count   = var.enable_http ? 1 : 0
   project = var.project
-  name    = var.name + "-http-proxy"
+  name    = "${var.name}-http-proxy"
   url_map = var.url_map
 }
 
@@ -34,7 +34,7 @@ resource "google_compute_global_forwarding_rule" "http" {
   provider   = google-beta
   count      = var.enable_http ? 1 : 0
   project    = var.project
-  name       = var.name + "-http-rule"
+  name       = "${var.name}-http-rule"
   target     = google_compute_target_http_proxy.http[0].self_link
   ip_address = google_compute_global_address.default.address
   port_range = "80"
@@ -52,7 +52,7 @@ resource "google_compute_global_forwarding_rule" "https" {
   provider   = google-beta
   project    = var.project
   count      = var.enable_ssl ? 1 : 0
-  name       = var.name + "-https-rule"
+  name       = "${var.name}-https-rule"
   target     = google_compute_target_https_proxy.default[0].self_link
   ip_address = google_compute_global_address.default.address
   port_range = "443"
@@ -64,7 +64,7 @@ resource "google_compute_global_forwarding_rule" "https" {
 resource "google_compute_target_https_proxy" "default" {
   project = var.project
   count   = var.enable_ssl ? 1 : 0
-  name    = var.name + "-https-proxy"
+  name    = "${var.name}-https-proxy"
   url_map = var.url_map
 
   ssl_certificates = var.ssl_certificates
@@ -78,7 +78,7 @@ resource "google_dns_record_set" "dns" {
   project = var.project
   count   = var.create_dns_entries ? length(var.custom_domain_names) : 0
 
-  name = var.custom_domain_names[count.index] + "."
+  name = "${element(var.custom_domain_names, count.index)}."
   type = "A"
   ttl  = var.dns_record_ttl
 
