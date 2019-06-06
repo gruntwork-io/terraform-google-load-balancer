@@ -52,8 +52,8 @@ module "lb" {
 resource "google_compute_url_map" "urlmap" {
   project = var.project
 
-  name        = var.name + "-url-map"
-  description = "URL map for " + var.name
+  name        = "${var.name}-url-map"
+  description = "URL map for ${var.name}"
 
   default_service = google_compute_backend_bucket.static.self_link
 
@@ -80,8 +80,8 @@ resource "google_compute_url_map" "urlmap" {
 resource "google_compute_backend_service" "api" {
   project = var.project
 
-  name        = var.name + "-api"
-  description = "API Backend for " + var.name
+  name        = "${var.name}-api"
+  description = "API Backend for ${var.name}"
   port_name   = "http"
   protocol    = "HTTP"
   timeout_sec = 10
@@ -102,7 +102,7 @@ resource "google_compute_backend_service" "api" {
 
 resource "google_compute_health_check" "default" {
   project = var.project
-  name    = var.name + "-hc"
+  name    = "${var.name}-hc"
 
   http_health_check {
     port         = 5000
@@ -120,7 +120,7 @@ resource "google_compute_health_check" "default" {
 resource "google_storage_bucket" "static" {
   project = var.project
 
-  name          = var.name + "-bucket"
+  name          = "${var.name}-bucket"
   location      = var.static_content_bucket_location
   storage_class = "MULTI_REGIONAL"
 
@@ -141,7 +141,7 @@ resource "google_storage_bucket" "static" {
 resource "google_compute_backend_bucket" "static" {
   project = var.project
 
-  name        = var.name + "-backend-bucket"
+  name        = "${var.name}-backend-bucket"
   bucket_name = google_storage_bucket.static.name
 }
 
@@ -231,7 +231,7 @@ resource "google_compute_ssl_certificate" "certificate" {
 
 resource "google_compute_instance_group" "api" {
   project   = var.project
-  name      = var.name + "-instance-group"
+  name      = "${var.name}-instance-group"
   zone      = var.zone
   instances = [google_compute_instance.api.self_link]
 
@@ -247,7 +247,7 @@ resource "google_compute_instance_group" "api" {
 
 resource "google_compute_instance" "api" {
   project      = var.project
-  name         = var.name + "-instance"
+  name         = "${var.name}-instance"
   machine_type = "f1-micro"
   zone         = var.zone
 
@@ -261,7 +261,7 @@ resource "google_compute_instance" "api" {
   }
 
   # Make sure we have the flask application running
-  metadata_startup_script = file(path.module + "/examples/shared/startup_script.sh")
+  metadata_startup_script = file("${path.module}/examples/shared/startup_script.sh")
 
   # Launch the instance in the default subnetwork
   network_interface {
@@ -281,7 +281,7 @@ resource "google_compute_instance" "api" {
 
 resource "google_compute_firewall" "firewall" {
   project = var.project
-  name    = var.name + "-fw"
+  name    = "${var.name}-fw"
   network = "default"
 
   # Allow load balancer access to the API instances
