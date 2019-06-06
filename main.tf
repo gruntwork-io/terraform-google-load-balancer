@@ -16,11 +16,13 @@ terraform {
 # ------------------------------------------------------------------------------
 
 provider "google" {
+  version = "~> 2.7.0"
   region  = var.region
   project = var.project
 }
 
 provider "google-beta" {
+  version = "~> 2.7.0"
   region  = var.region
   project = var.project
 }
@@ -40,7 +42,7 @@ module "lb" {
   dns_record_ttl        = var.dns_record_ttl
   enable_http           = var.enable_http
   enable_ssl            = var.enable_ssl
-  ssl_certificates      = [google_compute_ssl_certificate.certificate.*.self_link]
+  ssl_certificates      = google_compute_ssl_certificate.certificate.*.self_link
 
   custom_labels = var.custom_labels
 }
@@ -129,6 +131,8 @@ resource "google_storage_bucket" "static" {
     not_found_page   = "404.html"
   }
 
+  # For the example, we want to clean up all resources. In production, you should set this to false to prevent
+  # accidental loss of data
   force_destroy = true
 
   labels = var.custom_labels

@@ -68,4 +68,3 @@ variable "custom_labels" {
     test-case = "http-multiple-backends"
   }
 }
-
