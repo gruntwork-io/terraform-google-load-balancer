@@ -26,7 +26,7 @@ variable "enable_ssl" {
 
 variable "ssl_certificates" {
   description = "List of SSL cert self links. Required if 'enable_ssl' is 'true'."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -42,7 +42,7 @@ variable "create_dns_entries" {
 
 variable "custom_domain_names" {
   description = "List of custom domain names."
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -58,6 +58,7 @@ variable "dns_record_ttl" {
 
 variable "custom_labels" {
   description = "A map of custom labels to apply to the resources. The key is the label name and the value is the label value."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
+
