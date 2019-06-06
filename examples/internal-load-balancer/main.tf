@@ -82,7 +82,7 @@ module "vpc_network" {
 
 resource "google_compute_instance_group" "api" {
   project   = var.project
-  name      = "${var.name}-instance-group"
+  name      = var.name + "-instance-group"
   zone      = var.zone
   instances = [google_compute_instance.api.self_link]
 
@@ -93,7 +93,7 @@ resource "google_compute_instance_group" "api" {
 
 resource "google_compute_instance" "api" {
   project      = var.project
-  name         = "${var.name}-api-instance"
+  name         = var.name + "-api-instance"
   machine_type = "f1-micro"
   zone         = var.zone
 
@@ -110,7 +110,7 @@ resource "google_compute_instance" "api" {
   }
 
   # Make sure we have the api flask application running
-  metadata_startup_script = file("${path.module}/../shared/startup_script.sh")
+  metadata_startup_script = file(path.module + "/../shared/startup_script.sh")
 
   # Launch the instance in the public subnetwork
   # For details, see https://github.com/gruntwork-io/terraform-google-network/tree/master/modules/vpc-network#access-tier
@@ -126,7 +126,7 @@ resource "google_compute_instance" "api" {
 
 resource "google_compute_instance" "proxy" {
   project      = var.project
-  name         = "${var.name}-proxy-instance"
+  name         = var.name + "-proxy-instance"
   machine_type = "f1-micro"
   zone         = var.zone
 
@@ -158,7 +158,7 @@ resource "google_compute_instance" "proxy" {
 }
 
 data "template_file" "proxy_startup_script" {
-  template = file("${path.module}/startup_script.sh")
+  template = file(path.module + "/startup_script.sh")
 
   # Pass in the internal DNS name and private IP address of the LB
   vars = {
