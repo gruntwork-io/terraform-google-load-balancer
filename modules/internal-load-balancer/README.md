@@ -15,7 +15,7 @@ Google Cloud Platform (GCP) Internal TCP/UDP Load Balancing distributes traffic 
 
 ## How do you configure this module
 
-This module allows you to configure a number of parameters. For a list of all available variables and their descriptions, see [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/variables.tf).
+This module allows you to configure a number of parameters. For a list of all available variables and their descriptions, see [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/internal-load-balancer/variables.tf).
 
 ## Internal TCP/UDP Load Balancer Terminology
 
