@@ -138,7 +138,6 @@ func createTerratestOptionsForHttpLoadBalancer(exampleDir string, projectId stri
 			"custom_domain_name":    domainName,
 			"create_dns_entry":      createDnsEntry,
 			"dns_managed_zone_name": dnsZoneName,
-			"force_destroy_website": "true",
 			"enable_ssl":            enableSsl,
 			"enable_http":           enableHttp,
 			"zone":                  zone,
