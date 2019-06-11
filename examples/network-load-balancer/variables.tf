@@ -32,10 +32,7 @@ variable "name" {
 variable "custom_labels" {
   description = "A map of custom labels to apply to the resources. The key is the label name and the value is the label value."
   type        = map(string)
-
-  default = {
-    test-case = "internal-load-balancer"
-  }
+  default     = {}
 }
 
 

@@ -13,10 +13,6 @@ Google Cloud Platform (GCP) Network Load Balancing distributes traffic among VM 
 * See the [network-load-balancer example](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/examples/network-load-balancer) for working sample code.
 * Check out [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer/variables.tf) for all parameters you can set for this module.
 
-## How do you configure this module
-
-This module allows you to configure a number of parameters. For a list of all available variables and their descriptions, see [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer/variables.tf).
-
 ## Network Load Balancer Terminology
 
 GCP uses non-standard vocabulary for load balancing concepts. In case you're unfamiliar with load balancing on GCP, here's a short guide:

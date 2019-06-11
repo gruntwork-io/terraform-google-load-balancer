@@ -14,5 +14,5 @@ output "load_balancer_ip_address" {
 
 output "target_pool" {
   description = "Self link of the target pool"
-  value       = "${google_compute_target_pool.default.self_link}"
+  value       = google_compute_target_pool.default.self_link
 }

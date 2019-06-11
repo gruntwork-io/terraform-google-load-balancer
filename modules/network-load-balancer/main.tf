@@ -29,12 +29,6 @@ resource "google_compute_forwarding_rule" "default" {
 # CREATE TARGET POOL
 # ------------------------------------------------------------------------------
 
-variable "instances" {
-  description = "List of self links to instances in the pool. Note that the instances need not exist at the time of target pool creation."
-  type        = list(string)
-  default     = []
-}
-
 resource "google_compute_target_pool" "default" {
   project          = var.project
   name             = "${var.name}-tp"

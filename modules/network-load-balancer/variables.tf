@@ -94,6 +94,12 @@ variable "session_affinity" {
   default     = "NONE"
 }
 
+variable "instances" {
+  description = "List of self links to instances in the pool. Note that the instances need not exist at the time of target pool creation."
+  type        = list(string)
+  default     = []
+}
+
 variable "target_tags" {
   description = "List of target tags for traffic between the internal load balancer."
   type        = list(string)
