@@ -18,11 +18,6 @@ variable "name" {
   type        = string
 }
 
-variable "health_check_port" {
-  description = "The TCP port number for the HTTP health check request."
-  type        = number
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL MODULE PARAMETERS
 # These variables have defaults, but may be overridden by the operator.
@@ -43,13 +38,25 @@ variable "protocol" {
 variable "ip_address" {
   description = "IP address of the load balancer. If empty, an IP address will be automatically assigned."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "port_range" {
   description = "Only packets addressed to ports in the specified range will be forwarded to target. If empty, all packets will be forwarded."
   type        = string
-  default     = ""
+  default     = null
+}
+
+variable "enable_health_check" {
+  description = "Flag to indicate if health check is enabled. If set to true, a firewall rule allowing health check probes is also created."
+  type        = bool
+  default     = false
+}
+
+variable "health_check_port" {
+  description = "The TCP port number for the HTTP health check request."
+  type        = number
+  default     = 80
 }
 
 variable "health_check_healthy_threshold" {
@@ -82,10 +89,16 @@ variable "health_check_path" {
   default     = "/"
 }
 
+variable "firewall_target_tags" {
+  description = "List of target tags for the health check firewall rule."
+  type        = list(string)
+  default     = []
+}
+
 variable "network_project" {
   description = "The name of the GCP Project where the network is located. Useful when using networks shared between projects. If empty, var.project will be used."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "session_affinity" {
@@ -96,12 +109,6 @@ variable "session_affinity" {
 
 variable "instances" {
   description = "List of self links to instances in the pool. Note that the instances need not exist at the time of target pool creation."
-  type        = list(string)
-  default     = []
-}
-
-variable "target_tags" {
-  description = "List of target tags for traffic between the internal load balancer."
   type        = list(string)
   default     = []
 }

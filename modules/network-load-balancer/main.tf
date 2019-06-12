@@ -30,6 +30,7 @@ resource "google_compute_forwarding_rule" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_target_pool" "default" {
+  provider         = google-beta
   project          = var.project
   name             = "${var.name}-tp"
   region           = var.region
@@ -38,7 +39,7 @@ resource "google_compute_target_pool" "default" {
   instances = var.instances
 
   health_checks = [
-    google_compute_http_health_check.default.name,
+    google_compute_http_health_check.default.*.name,
   ]
 }
 
@@ -47,6 +48,9 @@ resource "google_compute_target_pool" "default" {
 # ------------------------------------------------------------------------------
 
 resource "google_compute_http_health_check" "default" {
+  count = var.enable_health_check ? 1 : 0
+
+  provider            = google-beta
   project             = var.project
   name                = "${var.name}-hc"
   request_path        = var.health_check_path
@@ -63,9 +67,12 @@ resource "google_compute_http_health_check" "default" {
 
 # Health check firewall allows ingress tcp traffic from the health check IP addresses
 resource "google_compute_firewall" "health_check" {
-  project = var.network_project == "" ? var.project : var.network_project
-  name    = "${var.name}-hc-fw"
-  network = var.network
+  count = var.enable_health_check ? 1 : 0
+
+  provider = google-beta
+  project  = var.network_project == null ? var.project : var.network_project
+  name     = "${var.name}-hc-fw"
+  network  = var.network
 
   allow {
     protocol = "tcp"
@@ -76,6 +83,6 @@ resource "google_compute_firewall" "health_check" {
   source_ranges = ["209.85.152.0/22", "209.85.204.0/22", "35.191.0.0/16"]
 
   # Target tags define the instances to which the rule applies
-  target_tags = var.target_tags
+  target_tags = var.firewall_target_tags
 }
 

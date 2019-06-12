@@ -12,12 +12,6 @@ terraform {
 # CONFIGURE OUR GCP CONNECTION
 # ------------------------------------------------------------------------------
 
-provider "google" {
-  version = "~> 2.7.0"
-  region  = var.region
-  project = var.project
-}
-
 provider "google-beta" {
   version = "~> 2.7.0"
   region  = var.region
@@ -38,10 +32,11 @@ module "lb" {
   region  = var.region
   project = var.project
 
-  health_check_port = "5000"
-  health_check_path = "/api"
+  enable_health_check = true
+  health_check_port   = "5000"
+  health_check_path   = "/api"
 
-  target_tags = [var.name]
+  firewall_target_tags = [var.name]
 
   instances = [google_compute_instance.api.self_link]
 
