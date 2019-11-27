@@ -1,78 +1,75 @@
 # HTTP(S) Load Balancer Module
 
-<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
-           relative linking correctly.
--->
+[![Maintained by Gruntwork.io](https://img.shields.io/badge/maintained%20by-gruntwork.io-%235849a6.svg)](https://gruntwork.io/?ref=repo_google_load_balancer)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/gruntwork-io/terraform-google-load-balancer.svg?label=latest)](https://github.com/gruntwork-io/terraform-google-load-balancer/releases/latest)
+![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
 
 This Terraform Module creates an [HTTP(S) Cloud Load Balancer](https://cloud.google.com/load-balancing/docs/https/) using [global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules).
 
 HTTP(S) load balancing can balance HTTP and HTTPS traffic across multiple backend instances, across multiple regions. Your entire app is available via a single global IP address, resulting in a simplified DNS setup. HTTP(S) load balancing is scalable, fault-tolerant, requires no pre-warming, and enables content-based load balancing. 
 
-## Quick Start
+## Cloud Load Balancer Architecture
 
-* See the [http-multi-backend example](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/examples/http-multi-backend) for working sample code.
-* Check out [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/variables.tf) for all parameters you can set for this module.
+![Cloud Load Balancer Architecture](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/_docs/cloud-load-balancer.png "Cloud Load Balancer Architecture")
 
-## How do you configure this module
+## Features
 
-This module allows you to configure a number of parameters, such as HTTP/HTTPS, Google-managed Certificates and custom domain name. For a list of all available variables and their descriptions, see [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/variables.tf).
+- Load balance HTTP and HTTPS traffic across multiple backend instances, across multiple regions with HTTP(S) Load Balancing.
 
-## HTTP(S) Load Balancer Terminology
+## Learn
 
-GCP uses non-standard vocabulary for load balancing concepts. In case you're unfamiliar with load balancing on GCP, here's a short guide:
+This repo is a part of [the Gruntwork Infrastructure as Code Library](https://gruntwork.io/infrastructure-as-code-library/), a collection of reusable, battle-tested, production ready infrastructure code. If you’ve never used the Infrastructure as Code Library before, make sure to read [How to use the Gruntwork Infrastructure as Code Library](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library/)!
 
-- **[Global forwarding rules](https://cloud.google.com/load-balancing/docs/https/global-forwarding-rules)** route traffic by IP address, port, and protocol to a load balancing configuration consisting of a target proxy, URL map, and one or more backend services.
-- **[Target proxies](https://cloud.google.com/load-balancing/docs/target-proxies)** terminate HTTP(S) connections from clients. One or more global forwarding rules direct traffic to the target proxy, and the target proxy consults the URL map to determine how to route traffic to backends. 
-- **[URL maps](https://cloud.google.com/load-balancing/docs/https/url-map)** define matching patterns for URL-based routing of requests to the appropriate backend services. A default service is defined to handle any requests that do not match a specified host rule or path matching rule.
-- **Backends** are resources to which a GCP load balancer distributes traffic. These include [backend services](https://cloud.google.com/load-balancing/docs/backend-service), such as [instance groups](https://cloud.google.com/compute/docs/instance-groups/) or [backend buckets](https://cloud.google.com/load-balancing/docs/backend-bucket).  
+### Core concepts
 
-## How Do You Configure a Custom Domain?
+- [What is Cloud Load Balancing](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer/core-concepts.md#what-is-cloud-load-balancing)
+- [HTTP(S) Load Balancer Terminology](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/http-load-balancer/core-concepts.md#https-load-balancer-terminology)
+- [Cloud Load Balancing Documentation](https://cloud.google.com/load-balancing/)
 
-You can optionally configure a custom domain with input variables `create_dns_entries` and `custom_domain_names`. 
+### Repo organisation
 
-This will create an A records for each domain provided in `custom_domain_names` pointing to the Load Balancer's public IP address. Note that you will also have to provide a managed zone name with `dns_managed_zone_name` variable.
+This repo has the following folder structure:
 
-## How Do You Configure SSL?
+* [root](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master): The root folder contains an example of how to deploy a HTTP Load Balancer with multiple backends. See [http-multi-backend example documentation](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples/http-multi-backend) for the documentation.
 
-You can enable SSL with the input variable `enable_ssl`.
+* [modules](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules): This folder contains the main implementation code for this Module.
 
-To use HTTPS or SSL load balancing, you must associate at least one SSL certificate with the load balancer's target proxy using the `ssl_certificates` input variable. You can configure the target proxy with up to ten SSL certificates.
+  The primary modules are:
 
-For HTTP(S) Proxy Load Balancing, *Google encrypts traffic between the load balancer and backend instances.* SSL certificate resources *are not required* on individual VM instances.
+    * [http-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer) is used to create an [HTTP(S) External Load Balancer](https://cloud.google.com/load-balancing/docs/https/).
+    * [internal-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/internal-load-balancer) is used to create an [Internal TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/internal/).
+    * [network-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer) is used to create an [External TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/network/).
+                                                                                                                                           
+* [examples](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): This folder contains examples of how to use the submodules.
 
-### Using Self-managed SSL certificates
+* [test](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/test): Automated tests for the submodules and examples.
 
-To use self-managed SSL certificates, you must have an existing [SSL certificate resource](https://cloud.google.com/compute/docs/reference/v1/sslCertificates). You can pass the certificate self links using the `ssl_certificates` input variable. 
+## Deploy
 
-## How Do You Configure Access Logging and Monitoring?
+If you want to try this repo out for experimenting and learning, check out the following resources:
 
-**NOTE:** This is part of Alpha release of GCP HTTP(S) Load Balancing Logging. For full details, see the [official documentation](https://cloud.google.com/load-balancing/docs/https/https-logging-monitoring).
+- [examples folder](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): The `examples` folder contains sample code optimized for learning, experimenting, and testing.
 
-### Access logs with a Google Cloud Storage Bucket backend
+## Manage
 
-If you intend to use the load balancer for serving a static site using a [Google Cloud Storage](https://cloud.google.com/storage/) bucket backend, you can optionally configure [access logging](https://cloud.google.com/storage/docs/access-logs) for your bucket. 
+### Day-to-day operations
 
-### How to view logs
+- [How to configure a custom domain](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/http-load-balancer/core-concepts.md#how-do-you-configure-a-custom-domain)
+- [How to configure SSL](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/http-load-balancer/core-concepts.md#how-do-you-configure-ssl)
+- [How to configure access logging and monitoring](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/http-load-balancer/core-concepts.md#how-do-you-configure-access-logging-and-monitoring)
 
-Each HTTP(S) request is logged temporarily via [Stackdriver Logging](https://cloud.google.com/logging/docs/). During the Alpha testing phase, logging is automatic and does not need to be enabled. To view logs, go to the [Logs Viewer](https://console.cloud.google.com/logs). 
+## Support
 
-### What is logged
+If you need help with this repo or anything else related to infrastructure or DevOps, Gruntwork offers [Commercial Support](https://gruntwork.io/support/) via Slack, email, and phone/video. If you’re already a Gruntwork customer, hop on Slack and ask away! If not, [subscribe now](https://www.gruntwork.io/pricing/). If you’re not sure, feel free to email us at [support@gruntwork.io](mailto:support@gruntwork.io).
 
-HTTP(S) Load Balancing log entries contain information useful for monitoring and debugging your HTTP(S) traffic. Log entries contain the following types of information:
+## Contributions
 
-- General information shown in most GCP logs, such as severity, project ID, project number, timestamp, and so on.
-- [HttpRequest](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#HttpRequest) log fields. However, `HttpRequest.protocol` and `HttpRequest.latency` are not populated for HTTP(S) Load Balancing Stackdriver logs.
-- a `statusDetails` field inside the `structPayload`. This field holds a string that explains why the load balancer returned the HTTP status that it did.
+Contributions to this repo are very welcome and appreciated! If you find a bug or want to add a new feature or even contribute an entirely new module, we are very happy to accept pull requests, provide feedback, and run your changes through our automated test suite.
 
-### Monitoring
+Please see [Contributing to the Gruntwork Infrastructure as Code Library](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library/#contributing-to-the-gruntwork-infrastructure-as-code-library) for instructions.
 
-HTTP(S) Load Balancing exports monitoring data to [Stackdriver](https://cloud.google.com/monitoring/docs/).
+## License
 
-Monitoring metrics can be used for the following purposes:
+Please see [LICENSE](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/LICENSE.txt) for details on how the code in this repo is licensed.
 
-- Evaluate a load balancer's configuration, usage, and performance
-- Troubleshoot problems
-- Improve resource utilization and user experience
-
-In addition to the predefined dashboards in Stackdriver, you can create custom dashboards, set up alerts, and query the metrics through the [Stackdriver monitoring API](https://cloud.google.com/monitoring/api/).
-
+Copyright &copy; 2019 Gruntwork, Inc.
