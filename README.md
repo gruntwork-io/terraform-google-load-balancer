@@ -3,7 +3,7 @@
 :name: Google Cloud Load Balancer
 :description: Deploy Google's Cloud Load Balancer, with support for HTTP/HTTPS, internal and network load balancers.
 :icon: /_docs/cloud-load-balancer-icon.png
-:category: loadbalancer
+:category: load-balancing
 :cloud: gcp
 :tags: loadbalancer, http, https, network
 :license: open-source
