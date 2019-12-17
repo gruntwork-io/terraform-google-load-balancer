@@ -8,14 +8,6 @@ This Terraform Module creates an [Internal TCP/UDP Load Balancer](https://cloud.
 
 Google Cloud Platform (GCP) Internal TCP/UDP Load Balancing distributes traffic among VM instances in the same region in a VPC network using a private, internal (RFC 1918) IP address.
 
-## Cloud Load Balancer Architecture
-
-![Cloud Load Balancer Architecture](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/_docs/cloud-load-balancer.png "Cloud Load Balancer Architecture")
-
-## Features
-
-- Load balance internal TCP/UDP traffic with Internal Load Balancing
-
 ## Learn
 
 This repo is a part of [the Gruntwork Infrastructure as Code Library](https://gruntwork.io/infrastructure-as-code-library/), a collection of reusable, battle-tested, production ready infrastructure code. If you’ve never used the Infrastructure as Code Library before, make sure to read [How to use the Gruntwork Infrastructure as Code Library](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library/)!
