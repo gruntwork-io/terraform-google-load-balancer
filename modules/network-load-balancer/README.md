@@ -1,22 +1,66 @@
 # Network Load Balancer Module
 
-<!-- NOTE: We use absolute linking here instead of relative linking, because the terraform registry does not support
-           relative linking correctly.
--->
+[![Maintained by Gruntwork.io](https://img.shields.io/badge/maintained%20by-gruntwork.io-%235849a6.svg)](https://gruntwork.io/?ref=repo_google_load_balancer)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/gruntwork-io/terraform-google-load-balancer.svg?label=latest)](https://github.com/gruntwork-io/terraform-google-load-balancer/releases/latest)
+![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
 
 This Terraform Module creates a [Network Load Balancer](https://cloud.google.com/load-balancing/docs/network/) using [forwarding rules](https://cloud.google.com/load-balancing/docs/network/#forwarding_rules) and [target pools](https://cloud.google.com/load-balancing/docs/network/#target_pools).
 
 Google Cloud Platform (GCP) Network Load Balancing distributes traffic among VM instances in the same region in a VPC network. 
 
-## Quick Start
+## Learn
 
-* See the [network-load-balancer example](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/examples/network-load-balancer) for working sample code.
-* Check out [variables.tf](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer/variables.tf) for all parameters you can set for this module.
+This repo is a part of [the Gruntwork Infrastructure as Code Library](https://gruntwork.io/infrastructure-as-code-library/), a collection of reusable, battle-tested, production ready infrastructure code. If you’ve never used the Infrastructure as Code Library before, make sure to read [How to use the Gruntwork Infrastructure as Code Library](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library/)!
 
-## Network Load Balancer Terminology
+### Core concepts
 
-GCP uses non-standard vocabulary for load balancing concepts. In case you're unfamiliar with load balancing on GCP, here's a short guide:
+- [What is Cloud Load Balancing](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer/core-concepts.md#what-is-cloud-load-balancing)
+- [Network Load Balancer Terminology](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/network-load-balancer/core-concepts.md#network-tcpudp-load-balancer-terminology)
+- [Netowrk Load Balancing Documentation](https://cloud.google.com/load-balancing/docs/network/)
 
-- **[Target pools](https://cloud.google.com/load-balancing/docs/network/#target_pools)** A Target Pool resource defines a group of instances that should receive incoming traffic from forwarding rules. Target pools can only be used with forwarding rules that handle TCP and UDP traffic.
-- **[Forwarding rules](https://cloud.google.com/load-balancing/docs/network/#forwarding_rules)**  Forwarding rules work in conjunction with target pools and target instances to support load balancing and protocol forwarding features.
-- **[Health checks](https://cloud.google.com/load-balancing/docs/network/#health_checking)** ensure that Compute Engine forwards new connections only to instances that are up and ready to receive them. Compute Engine sends health check requests to each instance at the specified frequency.
+### Repo organisation
+
+This repo has the following folder structure:
+
+* [root](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master): The root folder contains an example of how to deploy a HTTP Load Balancer with multiple backends. See [http-multi-backend example documentation](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples/http-multi-backend) for the documentation.
+
+* [modules](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules): This folder contains the main implementation code for this Module.
+
+  The primary modules are:
+
+    * [http-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/http-load-balancer) is used to create an [HTTP(S) External Load Balancer](https://cloud.google.com/load-balancing/docs/https/).
+    * [internal-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/internal-load-balancer) is used to create an [Internal TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/internal/).
+    * [network-load-balancer](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/modules/network-load-balancer) is used to create an [External TCP/UDP Load Balancer](https://cloud.google.com/load-balancing/docs/network/).
+                                                                                                                                           
+* [examples](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): This folder contains examples of how to use the submodules.
+
+* [test](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/test): Automated tests for the submodules and examples.
+
+## Deploy
+
+If you want to try this repo out for experimenting and learning, check out the following resources:
+
+- [examples folder](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/examples): The `examples` folder contains sample code optimized for learning, experimenting, and testing.
+
+## Manage
+
+### Day-to-day operations
+
+- [Internal Load Balancer access logging and monitoring](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/internal-load-balancer/core-concepts.md#internal-tcpudp-load-balancing-monitoring)
+- [Internal Load Balancer DNS names](https://github.com/gruntwork-io/terraform-google-load-balancer/tree/master/modules/internal-load-balancer/core-concepts.md#internal-tcpudp-load-balancing-and-dns-names)
+
+## Support
+
+If you need help with this repo or anything else related to infrastructure or DevOps, Gruntwork offers [Commercial Support](https://gruntwork.io/support/) via Slack, email, and phone/video. If you’re already a Gruntwork customer, hop on Slack and ask away! If not, [subscribe now](https://www.gruntwork.io/pricing/). If you’re not sure, feel free to email us at [support@gruntwork.io](mailto:support@gruntwork.io).
+
+## Contributions
+
+Contributions to this repo are very welcome and appreciated! If you find a bug or want to add a new feature or even contribute an entirely new module, we are very happy to accept pull requests, provide feedback, and run your changes through our automated test suite.
+
+Please see [Contributing to the Gruntwork Infrastructure as Code Library](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library/#contributing-to-the-gruntwork-infrastructure-as-code-library) for instructions.
+
+## License
+
+Please see [LICENSE](https://github.com/gruntwork-io/terraform-google-load-balancer/blob/master/LICENSE.txt) for details on how the code in this repo is licensed.
+
+Copyright &copy; 2019 Gruntwork, Inc.
