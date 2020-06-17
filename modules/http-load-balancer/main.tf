@@ -57,7 +57,7 @@ resource "google_compute_global_forwarding_rule" "https" {
   ip_address = google_compute_global_address.default.address
   port_range = "443"
   depends_on = [google_compute_global_address.default]
-
+  
   labels = var.custom_labels
 }
 
@@ -66,7 +66,7 @@ resource "google_compute_target_https_proxy" "default" {
   count   = var.enable_ssl ? 1 : 0
   name    = "${var.name}-https-proxy"
   url_map = var.url_map
-
+  ssl_policy = var.ssl_policy
   ssl_certificates = var.ssl_certificates
 }
 

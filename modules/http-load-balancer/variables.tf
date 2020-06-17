@@ -34,6 +34,12 @@ variable "ssl_certificates" {
   default     = []
 }
 
+variable "ssl_policy" {
+  description = "Link to ssl policy. Omitted if not provided"
+  type        = string
+  default     = ""
+}
+
 variable "enable_http" {
   description = "Set to true to enable plain http. Note that disabling http does not force SSL and/or redirect HTTP traffic. See https://issuetracker.google.com/issues/35904733"
   type        = bool
