@@ -57,7 +57,6 @@ resource "google_compute_global_forwarding_rule" "https" {
   ip_address = google_compute_global_address.default.address
   port_range = "443"
   depends_on = [google_compute_global_address.default]
-  
   labels = var.custom_labels
 }
 
