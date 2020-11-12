@@ -19,13 +19,13 @@ terraform {
 # ------------------------------------------------------------------------------
 
 provider "google" {
-  version = "~> 2.7.0"
+  version = "~> 3.43.0"
   region  = var.region
   project = var.project
 }
 
 provider "google-beta" {
-  version = "~> 2.7.0"
+  version = "~> 3.43.0"
   region  = var.region
   project = var.project
 }
@@ -303,4 +303,3 @@ resource "google_compute_firewall" "firewall" {
     ports    = ["5000"]
   }
 }
-

@@ -22,13 +22,13 @@ terraform {
 # ------------------------------------------------------------------------------
 
 provider "google" {
-  version = "~> 2.7.0"
+  version = "~> 3.43.0"
   region  = var.region
   project = var.project
 }
 
 provider "google-beta" {
-  version = "~> 2.7.0"
+  version = "~> 3.43.0"
   region  = var.region
   project = var.project
 }
@@ -174,4 +174,3 @@ data "template_file" "proxy_startup_script" {
     ilb_ip      = module.lb.load_balancer_ip_address
   }
 }
-

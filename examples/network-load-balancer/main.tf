@@ -16,7 +16,7 @@ terraform {
 # ------------------------------------------------------------------------------
 
 provider "google-beta" {
-  version = "~> 2.7.0"
+  version = "~> 3.43.0"
   region  = var.region
   project = var.project
 }
@@ -100,4 +100,3 @@ resource "google_compute_firewall" "firewall" {
   # Target tags define the instances to which the rule applies
   target_tags = [var.name]
 }
-
