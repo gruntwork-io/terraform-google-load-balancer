@@ -60,12 +60,12 @@ jobs:
           command: |
             sudo apt-get remove -y google-cloud-sdk
             sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
-            sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update beta kubectl
+            sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update beta
 
       - run:
           name: run tests
           command: |
-            # required for gcloud and kubectl to authenticate correctly
+            # required for gcloud to authenticate correctly
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
