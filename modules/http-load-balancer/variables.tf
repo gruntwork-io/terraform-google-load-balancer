@@ -35,7 +35,7 @@ variable "ssl_certificates" {
 }
 
 variable "ssl_policy" {
-  description = "Link to ssl policy. Omitted if not provided"
+  description = "A reference to the SslPolicy resource that will be associated with the TargetHttpsProxy resource. If not set, the TargetHttpsProxy resource will not have any SSL policy configured."
   type        = string
   default     = null
 }
