@@ -37,7 +37,7 @@ variable "ssl_certificates" {
 variable "ssl_policy" {
   description = "Link to ssl policy. Omitted if not provided"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "enable_http" {
@@ -75,4 +75,3 @@ variable "custom_labels" {
   type        = map(string)
   default     = {}
 }
-
