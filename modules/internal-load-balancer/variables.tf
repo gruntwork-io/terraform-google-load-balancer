@@ -66,7 +66,7 @@ variable "protocol" {
 variable "ip_address" {
   description = "IP address of the load balancer. If empty, an IP address will be automatically assigned."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "service_label" {
@@ -110,4 +110,3 @@ variable "custom_labels" {
   type        = map(string)
   default     = {}
 }
-
