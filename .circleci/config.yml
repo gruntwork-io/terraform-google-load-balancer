@@ -99,9 +99,13 @@ workflows:
               only: /.*/
             tags:
               only: /.*/
+          context:
+            - Gruntwork Admin
       - test:
           requires:
             - precommit
           filters:
             tags:
               only: /^v.*/
+          context:
+            - Gruntwork Admin
