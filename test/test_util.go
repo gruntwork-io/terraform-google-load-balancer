@@ -3,15 +3,16 @@ package test
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/gruntwork-io/terratest/modules/gcp"
-	"github.com/gruntwork-io/terratest/modules/logger"
-	"github.com/gruntwork-io/terratest/modules/retry"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/gruntwork-io/terratest/modules/gcp"
+	"github.com/gruntwork-io/terratest/modules/logger"
+	"github.com/gruntwork-io/terratest/modules/retry"
+	"github.com/stretchr/testify/assert"
 )
 
 const ROOT_DOMAIN_NAME_FOR_TEST = "gcloud-test.com"
