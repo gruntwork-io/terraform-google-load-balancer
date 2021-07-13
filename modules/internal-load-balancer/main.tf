@@ -71,8 +71,12 @@ resource "google_compute_region_backend_service" "default" {
 resource "google_compute_health_check" "tcp" {
   count = var.http_health_check ? 0 : 1
 
-  project = var.project
-  name    = "${var.name}-hc"
+  project             = var.project
+  name                = "${var.name}-hc"
+  check_interval_sec  = var.health_check_interval
+  unhealthy_threshold = var.health_check_unhealthy_threshold
+  healthy_threshold   = var.health_check_healthy_threshold
+  timeout_sec         = var.health_check_timeout
 
   tcp_health_check {
     port = var.health_check_port
@@ -82,11 +86,17 @@ resource "google_compute_health_check" "tcp" {
 resource "google_compute_health_check" "http" {
   count = var.http_health_check ? 1 : 0
 
-  project = var.project
-  name    = "${var.name}-hc"
+  project             = var.project
+  name                = "${var.name}-hc"
+  check_interval_sec  = var.health_check_interval
+  unhealthy_threshold = var.health_check_unhealthy_threshold
+  healthy_threshold   = var.health_check_healthy_threshold
+  timeout_sec         = var.health_check_timeout
 
   http_health_check {
-    port = var.health_check_port
+    port         = var.health_check_port
+    request_path = var.health_check_path
+
   }
 }
 
