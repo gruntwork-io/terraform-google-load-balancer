@@ -2,14 +2,15 @@ package test
 
 import (
 	"fmt"
+	"path/filepath"
+	"strings"
+	"testing"
+
 	"github.com/gruntwork-io/terratest/modules/gcp"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/gruntwork-io/terratest/modules/test-structure"
-	"path/filepath"
-	"strings"
-	"testing"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
 const OUTPUT_NLB_IP = "load_balancer_ip_address"
