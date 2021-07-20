@@ -109,7 +109,7 @@ resource "google_compute_instance_group" "api" {
 resource "google_compute_instance" "api" {
   project      = var.project
   name         = "${var.name}-api-instance"
-  machine_type = "f1-micro"
+  machine_type = "e2-micro"
   zone         = var.zone
 
   # We're tagging the instance with the tag specified in the firewall rule
@@ -142,7 +142,7 @@ resource "google_compute_instance" "api" {
 resource "google_compute_instance" "proxy" {
   project      = var.project
   name         = "${var.name}-proxy-instance"
-  machine_type = "f1-micro"
+  machine_type = "e2-micro"
   zone         = var.zone
 
   # We're tagging the instance with the tag specified in the firewall rule
