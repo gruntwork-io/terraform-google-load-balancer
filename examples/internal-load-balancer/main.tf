@@ -81,7 +81,7 @@ module "lb" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "vpc_network" {
-  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=v0.6.0"
+  source = "github.com/gruntwork-io/terraform-google-network.git//modules/vpc-network?ref=v0.8.2"
 
   name_prefix = var.name
   project     = var.project
