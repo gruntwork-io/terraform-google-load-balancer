@@ -52,6 +52,7 @@ module "lb" {
   dns_record_ttl        = var.dns_record_ttl
   enable_http           = var.enable_http
   enable_ssl            = var.enable_ssl
+  enable_http_to_https_redirect = var.enable_http_to_https_redirect
   ssl_certificates      = google_compute_ssl_certificate.certificate.*.self_link
 
   custom_labels = var.custom_labels
@@ -310,3 +311,5 @@ resource "google_compute_firewall" "firewall" {
     ports    = ["5000"]
   }
 }
+
+

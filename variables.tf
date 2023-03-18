@@ -41,6 +41,12 @@ variable "enable_http" {
   default     = true
 }
 
+variable "enable_http_to_https_redirect" {
+  description = "Set to true to enable http requests to be redirected to https. If set to 'true' enable_ssl should be set to true and enable_http to false"
+  type        = bool
+  default     = false
+}
+
 variable "static_content_bucket_location" {
   description = "Location of the bucket that will store the static content. Once a bucket has been created, its location can't be changed. See https://cloud.google.com/storage/docs/bucket-locations"
   type        = string

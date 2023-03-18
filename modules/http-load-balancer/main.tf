@@ -73,6 +73,44 @@ resource "google_compute_target_https_proxy" "default" {
 }
 
 # ------------------------------------------------------------------------------
+# IF HTTP TO HTTPS REDIRECT IS ENABLED CREATE THE URL MAP AND PROXY TO REDIRECT HTTP TO HTTPS
+# ------------------------------------------------------------------------------
+
+resource "google_compute_url_map" "urlmap-redirect" {
+  project = var.project
+  count = var.enable_http_to_https_redirect ? 1 : 0
+  name        = "${var.name}-url-map-redirect"
+  description = "URL map redirect for ${var.name}"
+
+  default_url_redirect {
+    https_redirect = true
+    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+    strip_query = false
+  }
+}
+
+resource "google_compute_target_http_proxy" "redirect" {
+  count   = var.enable_http_to_https_redirect ? 1 : 0
+  project = var.project
+  name    = "${var.name}-redirect-proxy"
+  url_map = google_compute_url_map.urlmap-redirect[0].self_link
+}
+
+resource "google_compute_global_forwarding_rule" "redirect" {
+  provider   = google-beta
+  count      = var.enable_http_to_https_redirect ? 1 : 0
+  project    = var.project
+  name       = "${var.name}-redirect-rule"
+  target     = google_compute_target_http_proxy.redirect[0].self_link
+  ip_address = google_compute_global_address.default.address
+  port_range = "80"
+
+  depends_on = [google_compute_global_address.default]
+
+  labels = var.custom_labels
+}
+
+# ------------------------------------------------------------------------------
 # IF DNS ENTRY REQUESTED, CREATE A RECORD POINTING TO THE PUBLIC IP OF THE CLB
 # ------------------------------------------------------------------------------
 

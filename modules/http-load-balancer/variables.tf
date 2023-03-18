@@ -40,6 +40,12 @@ variable "enable_http" {
   default     = true
 }
 
+variable "enable_http_to_https_redirect" {
+  description = "Set to true to enable http requests to be redirected to https. If set to 'true' enable_ssl should be set to true and enable_http to false"
+  type        = bool
+  default     = false
+}
+
 variable "create_dns_entries" {
   description = "If set to true, create a DNS A Record in Cloud DNS for each domain specified in 'custom_domain_names'."
   type        = bool
